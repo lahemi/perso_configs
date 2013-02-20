@@ -1,0 +1,54 @@
+#
+# MPlayer configuration file
+#
+# video settings-------------------------------------------
+
+vo=xv
+
+#fs=yes
+#vm=yes
+#monitoraspect=16:9
+
+vf-add=expand=::::1:16/9:16
+
+# audio settings-------------------------------------------
+
+ao=oss
+
+mixer = /dev/mixer
+
+# other settings-------------------------------------------
+
+# Drop frames to preserve audio/video sync.
+#framedrop = yes
+
+# Resample the font alphamap.
+# 0     plain white fonts
+# 0.75  very narrow black outline (default)
+# 1     narrow black outline
+# 10    bold black outline
+#ffactor = 0.75
+
+# cache settings
+# Use 8MB input cache by default.
+#cache = 8192
+# Prefill cache before starting playback.
+cache-min = 10.0
+
+#slang = en
+alang = en
+
+# Profiles-------------------------------------------------
+
+[protocol.dvdnav]
+#vc=ffmpeg12,
+#mouse-movements=yes
+#nocache=yes
+
+#[vo.vdpau]
+#vc=ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau,
+# Most video filters do not work with vdpau.
+#vf-clr=yes
+
+# You can also include other configuration files.
+#include = /path/to/the/file/you/want/to/include

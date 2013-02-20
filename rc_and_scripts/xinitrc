@@ -1,0 +1,11 @@
+# .xinitrc-tastic
+
+setxkbmap fi
+xsetroot -cursor_name left_ptr
+numlockx &
+
+env bash ~/.rscripts/xmods.sh
+env bash ~/.rscripts/bamboo.sh
+
+exec xmonad
+#exec awesome
