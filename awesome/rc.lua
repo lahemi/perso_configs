@@ -74,14 +74,14 @@ end
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
--- Widgets
+-- Widgets. Simple is beautiful.
 mytextclock = awful.widget.textclock()
 
 cpuwig = wibox.widget.textbox()
-vicious.register(cpuwig, vicious.widgets.cpu, "CPU: 1% ", 3)
+vicious.register(cpuwig, vicious.widgets.cpu, "CPU: $1% ", 3)
 
 memwig = wibox.widget.textbox()
-vicious.register(memwig, vicious.widgets.mem, " MEM: $1 ", 3)
+vicious.register(memwig, vicious.widgets.mem, " MEM: $2MB ", 5)
 
 
 --[[
