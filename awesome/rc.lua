@@ -38,10 +38,8 @@ end
 -- }}}
 
 -- Variable definitions
-
 terminal = "termit"
 editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 mod1 = "Mod1"
 
@@ -67,32 +65,27 @@ local layouts =
 tags = { layout = { layouts[2], layouts[2], layouts[2], layouts[2], layouts[3],
                     layouts[2], layouts[2], layouts[1], layouts[1], layouts[1],
                     layouts[1], layouts[1], layouts[5], layouts[2], layouts[1],
-                    layouts[1], layouts[1], layouts[1], layouts[1], layouts[1] } }
-                    
+                    layouts[1], layouts[3], layouts[2] } }
+
 for s = 1, screen.count() do
-    tags[s] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,13,14}, 1, tags.layout)
+    tags[s] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18}, 1, tags.layout)
 end
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
--- Wibox
+-- Widgets
 mytextclock = awful.widget.textclock()
 
--- CPU/Memory widgets , horrible colours
-cpuwig = awful.widget.graph()
-cpuwig:set_width(80):set_height(18)
-cpuwig:set_background_color("#494B4F00"):set_border_color(nil)
-cpuwig:set_color({type = "linear", from = { 0, 0 }, to = {0, 20}, stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1.0, "#FF5656" } } } )
-vicious.register(cpuwig, vicious.widgets.cpu, "$1", 2)
+cpuwig = wibox.widget.textbox()
+vicious.register(cpuwig, vicious.widgets.cpu, "CPU: 1% ", 3)
 
-memwig = awful.widget.graph()
-memwig:set_width(32):set_height(18)
-memwig:set_background_color("#494B4F00"):set_border_color(nil)
-memwig:set_color({type = "linear", from = { 0, 0 }, to = {0, 20}, stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1.0, "#FF5656" } } } )
-vicious.register(memwig, vicious.widgets.mem, "$1", 3)
+memwig = wibox.widget.textbox()
+vicious.register(memwig, vicious.widgets.mem, " MEM: $1 ", 3)
 
--- Über wonderful random solution ! Something up with the cr:paint() ?
+
+--[[
+-- Something up with the cr:paint() ?
 local separator = wibox.widget.imagebox()
 separator.draw = function(wibox, cr, width, height)
     local width = 1
@@ -103,6 +96,7 @@ separator.fit = function(width, height)
     local size = math.min(width, height)
     return size, size
 end
+--]]
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -142,115 +136,84 @@ mytasklist.buttons = awful.util.table.join(
                                               end
                                           end))
 
--- Note, this works only with a single monitor.If you use multiple monitors use: for s=1,screen.count() do
-mypromptbox[1] = awful.widget.prompt()
-mylayoutbox[1] = awful.widget.layoutbox(1)
-mytaglist[1] = awful.widget.taglist(1, awful.widget.taglist.filter.all, mytaglist.buttons)
-mytasklist[1] = awful.widget.tasklist(1, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
-mywibox[1] = awful.wibox({ position = "top", screen = 1, height = 18 })
+for s = 1, screen.count() do
+    mypromptbox[1] = awful.widget.prompt()
+    mylayoutbox[1] = awful.widget.layoutbox(1)
+    mytaglist[1] = awful.widget.taglist(1, awful.widget.taglist.filter.all, mytaglist.buttons)
+    mytasklist[1] = awful.widget.tasklist(1, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+    mywibox[1] = awful.wibox({ position = "top", screen = 1, height = 18 })
 
--- Lefties
-local left_layout = wibox.layout.fixed.horizontal()
-left_layout:add(mytaglist[1])
-left_layout:add(mypromptbox[1])
-left_layout:add(separator)
+    -- Lefties
+    local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(mytaglist[1])
+    left_layout:add(mypromptbox[1])
+--    left_layout:add(separator)
 
--- Righties
-local right_layout = wibox.layout.fixed.horizontal()
-right_layout:add(mytextclock)
-right_layout:add(cpuwig)
-right_layout:add(separator)
--- if s == 1 then right_layout:add(wibox.widget.systray()) end
-right_layout:add(memwig)
-right_layout:add(mylayoutbox[1])
+    -- Righties
+    local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(mytextclock)
+    right_layout:add(cpuwig)
+--    right_layout:add(separator)
+    -- if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(memwig)
+    right_layout:add(mylayoutbox[1])
 
--- Now bring it all together (with the tasklist in the middle)
-local layout = wibox.layout.align.horizontal()
-layout:set_left(left_layout)
-layout:set_middle(mytasklist[1])
-layout:set_right(right_layout)
+    -- Now bring it all together (with the tasklist in the middle)
+    local layout = wibox.layout.align.horizontal()
+    layout:set_left(left_layout)
+    layout:set_middle(mytasklist[1])
+    layout:set_right(right_layout)
 
-mywibox[1]:set_widget(layout)
-
--- Mouse bindings
---root.buttons(awful.util.table.join(
---    awful.button({ }, 3, function () mymainmenu:toggle() end),
---    awful.button({ }, 4, awful.tag.viewnext),
---    awful.button({ }, 5, awful.tag.viewprev)
---))
+    mywibox[1]:set_widget(layout)
+end
 
 -- Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-
-    awful.key({ modkey, mod1 }, "l", function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-    awful.key({ modkey, mod1 }, "h", function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end),
+    awful.key({ modkey,           }, "Left",   awful.tag.viewprev ),
+    awful.key({ modkey,           }, "Right",  awful.tag.viewnext ),
+    awful.key({ modkey, mod1      }, "l", awful.tag.viewnext      ),
+    awful.key({ modkey, mod1      }, "h", awful.tag.viewprev      ),
 
     awful.key({ modkey,           }, "j",
-        function ()
+        function()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
         end),
     awful.key({ modkey,           }, "k",
-        function ()
+        function()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
 
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey,           }, "t", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey,           }, "Return", function() awful.util.spawn(terminal) end),
+    awful.key({ modkey,           }, "t",      function() awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
+    awful.key({ modkey, "Shift", "Control" }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey, "Shift"   }, "j",     function() awful.client.swap.byidx(  1)  end),
+    awful.key({ modkey, "Shift"   }, "k",     function() awful.client.swap.byidx( -1)  end),
+    awful.key({ modkey,           }, "l",     function() awful.tag.incmwfact( 0.05)    end),
+    awful.key({ modkey,           }, "h",     function() awful.tag.incmwfact(-0.05)    end),
+    awful.key({ modkey, "Shift"   }, "h",     function() awful.tag.incnmaster( 1)      end),
+    awful.key({ modkey, "Shift"   }, "l",     function() awful.tag.incnmaster(-1)      end),
+    awful.key({ modkey,           }, "space", function() awful.layout.inc(layouts,  1) end),
+    awful.key({ modkey, "Shift"   }, "space", function() awful.layout.inc(layouts, -1) end),
 
     -- Multimedia
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.util.spawn("ossmix -q jack.green.front +2") end),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.util.spawn("ossmix -q -- jack.green.front -2") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("ossmix -q jack.green.front +2")    end),
+    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("ossmix -q -- jack.green.front -2") end),
 
-    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Scrots'") end),
+    awful.key({ }, "Print", function() awful.util.spawn("scrot -e 'mv $f ~/Scrots'") end),
 
     -- Experiments. These two add and delete tags, some issues here though.
-    awful.key({ modkey, mod1 }, "n", function () awful.tag.add("-", tags) end),
-    awful.key({ modkey, mod1 }, "b", function () awful.tag.delete(awful.tag.selected()) end),
-
--- Looping did not work as I expected... for i=1,9 do globalkeys=awful.util.table.join(globalkeys, awful({},"",func()end)) end
---    awful.key({ modkey }, "1", function () awful.tag.viewonly(tags[1]) end),
---    awful.key({ modkey }, "2", function () awful.tag.viewonly(tags[2]) end),
---    awful.key({ modkey }, "3", function () awful.tag.viewonly(tags[3]) end),
---    awful.key({ modkey }, "4", function () awful.tag.viewonly(tags[4]) end),
---    awful.key({ modkey }, "5", function () awful.tag.viewonly(tags[5]) end),
---    awful.key({ modkey }, "6", function () awful.tag.viewonly(tags[6]) end),
---    awful.key({ modkey }, "7", function () awful.tag.viewonly(tags[7]) end),
---    awful.key({ modkey }, "8", function () awful.tag.viewonly(tags[8]) end),
---    awful.key({ modkey }, "9", function () awful.tag.viewonly(tags[9]) end),
---    awful.key({ modkey, mod1 }, "1", function () awful.tag.viewonly(tags[10]) end),
---    awful.key({ modkey, mod1 }, "2", function () awful.tag.viewonly(tags[11]) end),
---    awful.key({ modkey, mod1 }, "3", function () awful.tag.viewonly(tags[12]) end),
---    awful.key({ modkey, mod1 }, "4", function () awful.tag.viewonly(tags[13]) end),
---    awful.key({ modkey, mod1 }, "5", function () awful.tag.viewonly(tags[14]) end),
---    awful.key({ modkey, mod1 }, "6", function () awful.tag.viewonly(tags[15]) end),
---    awful.key({ modkey, mod1 }, "7", function () awful.tag.viewonly(tags[16]) end),
---    awful.key({ modkey, mod1 }, "8", function () awful.tag.viewonly(tags[17]) end),
---    awful.key({ modkey, mod1 }, "9", function () awful.tag.viewonly(tags[18]) end),
---
---  for i in {1..6} do awful.key({modkey}, "#" .. i + 9,
---  function local screen = mouse screen if tags[screen][i] then awful.tag.viewonly(tags[screen][i]) end
+    --awful.key({ modkey, mod1 }, "n", function() awful.tag.add("-", tags) end),
+    --awful.key({ modkey, mod1 }, "b", function() awful.tag.delete(awful.tag.selected()) end),
 
     -- Prompt
-    awful.key({ modkey },            "z",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey },            "z",     function() mypromptbox[mouse.screen]:run() end),
     awful.key({ modkey }, "x",
-              function ()
+              function()
                   awful.prompt.run({ prompt = "Run Lua code: " },
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
@@ -270,27 +233,32 @@ clientkeys = awful.util.table.join(
         end)
 )
 
--- 10,11,12,13 tags are bound to keys 0 nad backspace and those in between. 14 is tab.
-keynumber = 0
-for s = 1, screen.count() do
-    keynumber = math.min(14, math.max(#tags[s], keynumber))
-end
-
-for i = 1, keynumber do
+-- Bind tags to numbers; first 9 to mod+# and then the rest to mod+mod1+#
+-- Beautiful. Delightful. Brings joy to my heart. Does good things to me.
+for i=1,9 do
     globalkeys = awful.util.table.join(globalkeys,
-        awful.key({ modkey }, "#" .. i + 9,
-            function ()
-                local screen = mouse.screen
-                if tags[screen][i] then
-                    awful.tag.viewonly(tags[screen][i])
-                end
-            end),
-        awful.key({ modkey, "Shift" }, "#" .. i + 9,
-            function ()
-               if client.focus and tags[client.focus.screen][i] then
-                   awful.client.movetotag(tags[client.focus.screen][i])
-               end
-            end))
+        awful.key({ modkey }, "" .. i, function()
+                    local screen = mouse.screen
+                    if tags[screen][i] then
+                        awful.tag.viewonly(tags[screen][i])
+                    end
+                end),
+        awful.key({ modkey, mod1 }, "" .. i, function()
+                    local screen = mouse.screen
+                    if tags[screen][i+9] then
+                        awful.tag.viewonly(tags[screen][i+9])
+                    end
+                end),
+        awful.key({ modkey, "Shift" }, "" .. i, function()
+                    if client.focus and tags[client.focus.screen][i] then
+                        awful.client.movetotag(tags[client.focus.screen][i])
+                    end
+                end),
+        awful.key({ modkey, mod1, "Shift" }, "" .. i, function()
+                    if client.focus and tags[client.focus.screen][i+9] then
+                        awful.client.movetotag(tags[client.focus.screen][i+9])
+                    end
+                end))
 end
 
 clientbuttons = awful.util.table.join(
