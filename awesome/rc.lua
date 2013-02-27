@@ -11,6 +11,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local rckeys = require("rckeys")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -43,17 +44,19 @@ editor = os.getenv("EDITOR") or "vim"
 modkey = "Mod4"
 mod1 = "Mod1"
 
---base_dir = ("/home/blueberry/.config/awesome")
-test_dir = ("/home/blueberry/perso_configs/awesome")
---themes_dir = (base_dir .. "/themes")
-themes_dir = (test_dir .. "/themes")
+base_dir = ("/home/blueberry/.config/awesome")
+--test_dir = ("/home/blueberry/perso_configs/awesome")
+themes_dir = (base_dir .. "/themes")
+--themes_dir = (test_dir .. "/themes")
 beautiful.init(themes_dir .. "/modid/theme.lua")
 if beautiful.wallpaper then
 	gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
 end
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
+-- Necessar to declare global, otherwise rckeys won't be able to see it.
+-- (Without somehow returning this and then require in rckeys?)
+layouts =
 {
     awful.layout.suit.floating,
     awful.layout.suit.max,
@@ -78,11 +81,16 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mytextclock = awful.widget.textclock()
 
 cpuwig = wibox.widget.textbox()
-vicious.register(cpuwig, vicious.widgets.cpu, "CPU: $1% ", 3)
+vicious.register(cpuwig, vicious.widgets.cpu, " CPU: $1% ", 3)
 
 memwig = wibox.widget.textbox()
 vicious.register(memwig, vicious.widgets.mem, " MEM: $2MB ", 5)
 
+osswig = wibox.widget.textbox()
+vicious.register(osswig, vicious.widgets.osses, "OSS: $1 dB ", 1)
+
+netwig = wibox.widget.textbox()
+vicious.register(netwig, vicious.widgets.net, " UP: ${enp2s0 up_kb} DOWN: ${enp2s0 down_kb} ", 1)
 
 --[[
 -- Something up with the cr:paint() ?
@@ -151,11 +159,13 @@ for s = 1, screen.count() do
 
     -- Righties
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(mytextclock)
+    right_layout:add(osswig)
+    right_layout:add(netwig)
     right_layout:add(cpuwig)
 --    right_layout:add(separator)
     -- if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(memwig)
+    right_layout:add(mytextclock)
     right_layout:add(mylayoutbox[1])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -167,59 +177,8 @@ for s = 1, screen.count() do
     mywibox[1]:set_widget(layout)
 end
 
--- Key bindings
-globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext ),
-    awful.key({ modkey, mod1      }, "l", awful.tag.viewnext      ),
-    awful.key({ modkey, mod1      }, "h", awful.tag.viewprev      ),
-
-    awful.key({ modkey,           }, "j",
-        function()
-            awful.client.focus.byidx( 1)
-            if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey,           }, "k",
-        function()
-            awful.client.focus.byidx(-1)
-            if client.focus then client.focus:raise() end
-        end),
-
-    -- Standard program
-    awful.key({ modkey,           }, "Return", function() awful.util.spawn(terminal) end),
-    awful.key({ modkey,           }, "t",      function() awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Control" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift", "Control" }, "q", awesome.quit),
-
-    awful.key({ modkey, "Shift"   }, "j",     function() awful.client.swap.byidx(  1)  end),
-    awful.key({ modkey, "Shift"   }, "k",     function() awful.client.swap.byidx( -1)  end),
-    awful.key({ modkey,           }, "l",     function() awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "h",     function() awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function() awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function() awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey,           }, "space", function() awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function() awful.layout.inc(layouts, -1) end),
-
-    -- Multimedia
-    awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("ossmix -q jack.green.front +2")    end),
-    awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("ossmix -q -- jack.green.front -2") end),
-
-    awful.key({ }, "Print", function() awful.util.spawn("scrot -e 'mv $f ~/Scrots'") end),
-
-    -- Experiments. These two add and delete tags, some issues here though.
-    --awful.key({ modkey, mod1 }, "n", function() awful.tag.add("-", tags) end),
-    --awful.key({ modkey, mod1 }, "b", function() awful.tag.delete(awful.tag.selected()) end),
-
-    -- Prompt
-    awful.key({ modkey },            "z",     function() mypromptbox[mouse.screen]:run() end),
-    awful.key({ modkey }, "x",
-              function()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end)
-)
+-- Key bindings. They can be found in rckeys, huzzah for modularity.
+globalkeys = awful.util.table.join(rckeys)
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
