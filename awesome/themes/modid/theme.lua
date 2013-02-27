@@ -8,13 +8,13 @@ theme.font          = "Monoscape 10"
 
 -- Pseudo transparency
 theme.bg_normal     = "#00000000"
-theme.bg_focus      = "#322a2c80"
+theme.bg_focus      = "#9aefda80"
 theme.bg_urgent     = "#ff000066"
 theme.bg_minimize   = "#44444466"
 theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
+theme.fg_focus      = "#9aefda"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
@@ -28,7 +28,7 @@ theme.taglist_squares_sel   = themes_dir .. "/modid/taglist/squarefw.png"
 theme.taglist_squares_unsel = themes_dir .. "/modid/taglist/squarew.png"
 theme.taglist_fg_focus  = "#9aefda"
 
-theme.wallpaper = themes_dir .. "/modid/tylers/circlethedrain_tylercreatesworlds_h.jpg"
+theme.wallpaper = themes_dir .. "/modid/tylers/fireinthesky_tylercreatesworlds.jpg"
 
 -- Layout icons
 theme.layout_fairv      = themes_dir .. "/modid/layouts/fairvw.png"
