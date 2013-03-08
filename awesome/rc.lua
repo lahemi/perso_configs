@@ -39,15 +39,13 @@ end
 -- }}}
 
 -- Variable definitions
-terminal = "termit"
+terminal = "lilyterm"
 editor = os.getenv("EDITOR") or "vim"
 modkey = "Mod4"
 mod1 = "Mod1"
 
 base_dir = ("/home/blueberry/.config/awesome")
---test_dir = ("/home/blueberry/perso_configs/awesome")
 themes_dir = (base_dir .. "/themes")
---themes_dir = (test_dir .. "/themes")
 beautiful.init(themes_dir .. "/modid/theme.lua")
 if beautiful.wallpaper then
 	gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
@@ -67,7 +65,7 @@ layouts =
 
 tags = { layout = { layouts[2], layouts[2], layouts[2], layouts[2], layouts[3],
                     layouts[2], layouts[2], layouts[1], layouts[1], layouts[1],
-                    layouts[1], layouts[1], layouts[5], layouts[2], layouts[1],
+                    layouts[1], layouts[2], layouts[5], layouts[2], layouts[1],
                     layouts[1], layouts[3], layouts[2] } }
 
 for s = 1, screen.count() do
@@ -78,33 +76,20 @@ end
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
 -- Widgets. Simple is beautiful.
-mytextclock = awful.widget.textclock()
-
 cpuwig = wibox.widget.textbox()
-vicious.register(cpuwig, vicious.widgets.cpu, " CPU: $1% ", 3)
+vicious.register(cpuwig, vicious.widgets.cpu, "| CPU: $1% ", 3)
 
 memwig = wibox.widget.textbox()
-vicious.register(memwig, vicious.widgets.mem, " MEM: $2MB ", 5)
+vicious.register(memwig, vicious.widgets.mem, "| MEM: $2MB ", 5)
+
+netwig = wibox.widget.textbox()             -- ip a and change to correspond your system.
+vicious.register(netwig, vicious.widgets.net, " | UP: ${enp2s0 up_kb} DOWN: ${enp2s0 down_kb} ", 1)
 
 osswig = wibox.widget.textbox()
-vicious.register(osswig, vicious.widgets.osses, "OSS: $1 dB ", 1)
+vicious.register(osswig, vicious.teatime.osses, "| OSS: $1 dB ", 1)
 
-netwig = wibox.widget.textbox()
-vicious.register(netwig, vicious.widgets.net, " UP: ${enp2s0 up_kb} DOWN: ${enp2s0 down_kb} ", 1)
-
---[[
--- Something up with the cr:paint() ?
-local separator = wibox.widget.imagebox()
-separator.draw = function(wibox, cr, width, height)
-    local width = 1
-    cr:paint()
-end
-separator.fit = function(width, height)
-    local width = 1
-    local size = math.min(width, height)
-    return size, size
-end
---]]
+hexclock = wibox.widget.textbox()
+vicious.register(hexclock, vicious.teatime.hexclock, "$1", 1.318)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -155,17 +140,15 @@ for s = 1, screen.count() do
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mytaglist[1])
     left_layout:add(mypromptbox[1])
---    left_layout:add(separator)
 
     -- Righties
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(osswig)
+    right_layout:add(hexclock)
     right_layout:add(netwig)
     right_layout:add(cpuwig)
---    right_layout:add(separator)
     -- if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(memwig)
-    right_layout:add(mytextclock)
+    right_layout:add(osswig)
     right_layout:add(mylayoutbox[1])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -176,9 +159,6 @@ for s = 1, screen.count() do
 
     mywibox[1]:set_widget(layout)
 end
-
--- Key bindings. They can be found in rckeys, huzzah for modularity.
-globalkeys = awful.util.table.join(rckeys)
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
@@ -192,41 +172,13 @@ clientkeys = awful.util.table.join(
         end)
 )
 
--- Bind tags to numbers; first 9 to mod+# and then the rest to mod+mod1+#
--- Beautiful. Delightful. Brings joy to my heart. Does good things to me.
-for i=1,9 do
-    globalkeys = awful.util.table.join(globalkeys,
-        awful.key({ modkey }, "" .. i, function()
-                    local screen = mouse.screen
-                    if tags[screen][i] then
-                        awful.tag.viewonly(tags[screen][i])
-                    end
-                end),
-        awful.key({ modkey, mod1 }, "" .. i, function()
-                    local screen = mouse.screen
-                    if tags[screen][i+9] then
-                        awful.tag.viewonly(tags[screen][i+9])
-                    end
-                end),
-        awful.key({ modkey, "Shift" }, "" .. i, function()
-                    if client.focus and tags[client.focus.screen][i] then
-                        awful.client.movetotag(tags[client.focus.screen][i])
-                    end
-                end),
-        awful.key({ modkey, mod1, "Shift" }, "" .. i, function()
-                    if client.focus and tags[client.focus.screen][i+9] then
-                        awful.client.movetotag(tags[client.focus.screen][i+9])
-                    end
-                end))
-end
-
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
 
--- Set keys
-root.keys(globalkeys)
+-- Key bindings. They can be found in rckeys, huzzah for modularity.
+root.keys(rckeys)
 
 -- {{{ Rules
 awful.rules.rules = {
@@ -262,5 +214,6 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+-- Don't mind these.
 awful.util.spawn_with_shell("env bash ~/.rscripts/xmods.sh")
 awful.util.spawn_with_shell("env bash ~/.rscripts/bamboo.sh")
