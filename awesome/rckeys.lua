@@ -42,5 +42,33 @@ local rckeys = awful.util.table.join(
     awful.key({ modkey }, "x", function() awful.prompt.run({ prompt = "Run Lua code: " }, mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end)
 )
 
+
+
+for i=1,9 do
+    rckeys = awful.util.table.join(rckeys,
+        awful.key({ modkey }, "" .. i, function()
+                    local screen = mouse.screen
+                    if tags[screen][i] then
+                        awful.tag.viewonly(tags[screen][i])
+                    end
+                end),
+        awful.key({ modkey, mod1 }, "" .. i, function()
+                    local screen = mouse.screen
+                    if tags[screen][i+9] then
+                        awful.tag.viewonly(tags[screen][i+9])
+                    end
+                end),
+        awful.key({ modkey, "Shift" }, "" .. i, function()
+                    if client.focus and tags[client.focus.screen][i] then
+                        awful.client.movetotag(tags[client.focus.screen][i])
+                    end
+                end),
+        awful.key({ modkey, mod1, "Shift" }, "" .. i, function()
+                    if client.focus and tags[client.focus.screen][i+9] then
+                        awful.client.movetotag(tags[client.focus.screen][i+9])
+                    end
+                end))
+end
+
 -- in rc.lua, local rckeys = require("rckeys")
 return rckeys
