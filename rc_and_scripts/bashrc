@@ -18,11 +18,14 @@ shopt -s checkwinsize
 shopt -s autocd
 # Bash attempts to save multiple line cmds in same hist entry
 shopt -s cmdhist
+# Extended globbing, really cool. eg. @(-h|--help)
+shopt -s extglob
 
 export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export NMON=cnmt
+export PATH=$PATH:/home/blueberry/systastic_scripts
 
 ##---Fancy funcs-----------------------------------------------------
 
@@ -44,19 +47,19 @@ b() {
 
 # ABS Guide for the win.
 extract() {
-    if [ -f $1 ] ; then
-        case $1 in
-            *.tar.bz2)   tar xvjf $1     ;;
-            *.tar.gz)    tar xvzf $1     ;;
-            *.bz2)       bunzip2 $1      ;;
-            *.rar)       unrar x $1      ;;
-            *.gz)        gunzip $1       ;;
-            *.tar)       tar xvf $1      ;;
-            *.tbz2)      tar xvjf $1     ;;
-            *.tgz)       tar xvzf $1     ;;
-            *.zip)       unzip $1        ;;
-            *.Z)         uncompress $1   ;;
-            *.7z)        7z x $1         ;;
+    if [ -f "$1" ] ; then
+        case "$1" in
+            *.tar.bz2)   tar xvjf "$1"     ;;
+            *.tar.gz)    tar xvzf" $1"     ;;
+            *.bz2)       bunzip2 "$1"      ;;
+            *.rar)       unrar x "$1"      ;;
+            *.gz)        gunzip "$1"       ;;
+            *.tar)       tar xvf "$1"      ;;
+            *.tbz2)      tar xvjf "$1"     ;;
+            *.tgz)       tar xvzf "$1"     ;;
+            *.zip)       unzip "$1"        ;;
+            *.Z)         uncompress "$1"   ;;
+            *.7z)        7z x "$1"         ;;
             *)           echo "'$1' cannot be extracted via >extract<" ;;
         esac
     else
@@ -98,11 +101,18 @@ qpl() {
     fi
 
     url="$1"
-    # If this happens to be the case, please quote arg.
-    if grep -qs "feature" "$url"; then
-        url=$(echo "$url"|awk 'BEGIN{FS="&"} {print $1}')
+
+    if [[ "$url" != http* ]]; then
+        url=$(echo "$url"|sed 's/^/http:\/\//')
         echo "$url"
     fi
+
+    # If this happens to be the case, please quote arg.   
+    if [[ "$url" == *feature* ]]; then
+        url=$(echo "$url"|awk 'BEGIN{FS="&"} {print $1}')   # or sed 's/\$[^$]*$//'
+        echo "$url"
+    fi
+    
 
     mplayer $(quvi "$url"|grep \"url\"|awk '{print $2}'|awk 'BEGIN{FS="\""} {print $2}')
 }
@@ -111,8 +121,13 @@ qpl() {
 ## Aliases
 
 alias ls='ls -F --color=auto'
-alias ll='ls -gGh'
+alias l='ls'
+alias ll='ls -gGh'      # || ls -goh
+alias la='ls -A'
+alias lg='ls|grep'
 alias grep='grep --color=auto'
+alias tree='tree -CF'
 alias rm='rm -I'
 alias vi='vim'
-
+alias svim='sudoedit'
+alias sef='sudo vim /home/blueberry/systastic_scripts/self_organize.sh'
