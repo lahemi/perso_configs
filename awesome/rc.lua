@@ -11,7 +11,9 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+-- Key bindings and unix clock
 local rckeys = require("rckeys")
+local unix_t = require("unixalone") 
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -44,7 +46,7 @@ editor = os.getenv("EDITOR") or "vim"
 modkey = "Mod4"
 mod1 = "Mod1"
 
-base_dir = ("/home/blueberry/.config/awesome")
+base_dir = os.getenv("HOME") .. ("/.config/awesome")
 themes_dir = (base_dir .. "/themes")
 beautiful.init(themes_dir .. "/modid/theme.lua")
 if beautiful.wallpaper then
@@ -83,13 +85,15 @@ memwig = wibox.widget.textbox()
 vicious.register(memwig, vicious.widgets.mem, "| MEM: $2MB ", 5)
 
 netwig = wibox.widget.textbox()             -- ip a and change to correspond your system.
-vicious.register(netwig, vicious.widgets.net, " | UP: ${enp2s0 up_kb} DOWN: ${enp2s0 down_kb} ", 1)
+vicious.register(netwig, vicious.widgets.net, " | ↑ ${enp2s0 up_kb} ↓ ${enp2s0 down_kb} ", 1)
 
 osswig = wibox.widget.textbox()
-vicious.register(osswig, vicious.teatime.osses, "| OSS: $1 dB ", 1)
+vicious.register(osswig, vicious.teatime.osses, "| ♫ $1 dB | ", 1)
 
 hexclock = wibox.widget.textbox()
 vicious.register(hexclock, vicious.teatime.hexclock, "$1", 1.318)
+
+unixclock = unix_t.new()
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -149,6 +153,7 @@ for s = 1, screen.count() do
     -- if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(memwig)
     right_layout:add(osswig)
+    right_layout:add(unixclock)
     right_layout:add(mylayoutbox[1])
 
     -- Now bring it all together (with the tasklist in the middle)
