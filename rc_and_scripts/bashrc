@@ -85,15 +85,6 @@ yuvio() {
     fi
 }
 
-qplay() {
-    if [ $# != 1 ];then
-        echo 'Single url, dood.'
-        exit 1
-    else
-        mplayer $(quvi "$1"|grep \"url\"|awk '{print $2}'|cut -d'"' -f2)
-    fi
-}
-
 qpl() {
     if [ $# != 1 ];then
         echo 'Singles them dingles.'
