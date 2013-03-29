@@ -1,32 +1,30 @@
----------------------------
--- Default awesome theme --
----------------------------
+-- Modid Awesome WM theme
 
 theme = {}
 
 theme.font          = "Monoscape 10"
 
 -- Pseudo transparency
-theme.bg_normal     = "#00000000"
-theme.bg_focus      = "#9aefda80"
-theme.bg_urgent     = "#ff000066"
-theme.bg_minimize   = "#44444466"
-theme.bg_systray    = theme.bg_normal
+theme.bg_normal     = "#000000"
+theme.bg_focus      = "#c0c0c0"
+theme.bg_urgent     = "#ff0000"
+theme.bg_minimize   = "#444444"
 
 theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#9aefda"
+theme.fg_focus      = "#000000"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
 theme.border_width  = 0
-theme.border_normal = "#00000000"
-theme.border_focus  = "#535d6c66"
-theme.border_marked = "#91231c66"
+theme.border_normal = "#000000"
+theme.border_focus  = "#535d6c"
+theme.border_marked = "#91231c"
 
 -- Display the taglist squares
 theme.taglist_squares_sel   = themes_dir .. "/modid/taglist/squarefw.png"
 theme.taglist_squares_unsel = themes_dir .. "/modid/taglist/squarew.png"
-theme.taglist_fg_focus  = "#9aefda"
+theme.taglist_fg_focus = "#c0c0c0"
+theme.taglist_fg_focus = "#000000"
 
 theme.wallpaper = themes_dir .. "/modid/tylers/fireinthesky_tylercreatesworlds.jpg"
 
