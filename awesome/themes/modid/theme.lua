@@ -29,7 +29,7 @@ theme.taglist_fg_focus = "#000000"
 theme.wallpaper = themes_dir .. "/modid/tylers/fireinthesky_tylercreatesworlds.jpg"
 
 -- Layout icons
-theme.layout_fairv      = themes_dir .. "/modid/layouts/fairv.png"
+theme.layout_fairv      = themes_dir .. "/modid/layouts/fair.png"
 theme.layout_floating   = themes_dir .. "/modid/layouts/float.png"
 theme.layout_max        = themes_dir .. "/modid/layouts/max.png"
 theme.layout_tileleft   = themes_dir .. "/modid/layouts/tileleft.png"
