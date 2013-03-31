@@ -16,9 +16,6 @@ if [[ $# != 1 ]]; then
     exit 1
 fi
 
-# Enabling extended globbing, for convenience.
-shopt -s extglob
-
 DAY=$(date +%d)
 MONTH=$(date +%m)
 YEAR=$(date +%Y)
