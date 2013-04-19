@@ -9,13 +9,14 @@ function awkln() {
                  {if(l>99) { 
                       if(l<10)
                           print l++ "   " $0;
-                      else print l++ "  " $0}
+                      else
+                          print l++ "  " $0}
                   else if (l<99 && l>10){
                       if(l<10)
                           print l++ "  " $0;
                       else
                           print l++ " " $0}
-                  else { print l++ " " $0}}'
+                  else { print l++ " " $0 }}'
 }
 
 # Creates a treeview recursively out of the
