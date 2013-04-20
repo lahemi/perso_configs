@@ -28,7 +28,7 @@ export NMON=cnmt
 
 ##---Fancy funcs-----------------------------------------------------
 
-bfdir="/home/blueberry/.bash_funcs"
+bfdir="/home/$USER/.bash_funcs"
 
 source "$bfdir"/b.sh
 source "$bfdir"/extractor.sh
