@@ -24,3 +24,5 @@ inoremap kj <Esc>
 set backup
 set backupdir=~/.vimbak
 set directory=~/.vimbak
+
+set noswapfile
