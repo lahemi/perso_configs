@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-PS1='[\u@\h \W]\$ '
+PS1='[\u@\W]\$ '
 
 # See man bash(1)
 HISTSIZE=100
@@ -28,17 +28,15 @@ export NMON=cnmt
 
 ##---Fancy funcs-----------------------------------------------------
 
-bfdir="/home/$USER/.bash_funcs"
+bfdir="$HOME/.bash_funcs"
 
-source "$bfdir"/b.sh
-source "$bfdir"/extractor.sh
-source "$bfdir"/yplay.sh
-source "$bfdir"/qpl.sh
-source "$bfdir"/awks.sh
-source "$bfdir"/hanf.sh
+for i in "$bfdir"/*.sh; do
+    if [[ -f "$i" ]]; then
+        source "$i"
+    fi
+done
 
 ## Aliases
-
 alias grep='grep -i --color=auto'
 alias ls='ls -F --color=auto'
 alias l='ls'
