@@ -67,17 +67,28 @@ function converter() {
     printf "$han_u"
 }
 
+function usage() {
+    printf "\
+Enter syllables separated by whitespace.\n\
+You can use \"_\" character to input space\n\
+in the output."
+    return 1
+}
+
 
 function hanf() {
-    # Looping through all given args.
-    # If "_" is given, a whitespace will be printed.
-    for i in $@; do
-        if [[ "$i" = "_" ]]; then
-            printf " "
-        else
-            converter "$i"
-        fi
-    done
+    if [[ $# == 0 ]]; then
+        usage
+    else
+        # $@ == all given args.
+        for i in $@; do
+            if [[ "$i" = "_" ]]; then
+                printf " "
+            else
+                converter "$i"
+            fi
+        done
+    fi
     printf "\n"
 }
 
