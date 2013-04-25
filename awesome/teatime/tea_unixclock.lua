@@ -58,12 +58,14 @@ local function unix_td()
     return unix_time
 end
 
-function unixalone.new(timeout)
+function unixalone.new(format, timeout)
     local timeout = timeout or 1
+    local format  = format or " | "
 
     local w = textbox()
+    local unix = unix_td()
     local timer = capi.timer { timeout = timeout }
-    timer:connect_signal("timeout", function() w:set_markup(" | " .. unix_td() .. " ") end)
+    timer:connect_signal("timeout", function() w:set_markup(format .. unix .. " ") end)
 
     timer:start()
     timer:emit_signal("timeout")

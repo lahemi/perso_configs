@@ -13,8 +13,8 @@ local hexclock = { mt = {} }
 -- Base 16 is beautiful.
 local hex = { "1", "2", "3", "4", "5", "6", "7",
               "8", "9", "A", "B", "C", "D", "E", "F" }
--- Hex starts with 0 and this is a gum/glue solution that
--- makes string concat at hexadecValue possible later on.
+-- Hex starts with 0 and this is a dirty workaround, which
+-- makes string concat in hexadecValue possible.
 hex[0] = "0"
 
 local hexprefix = "0x"
@@ -42,12 +42,14 @@ local function hexclk()
     return hexadecValue
 end
 
-function hexclock.new(timeout)
-    local timeout = timeout or 1.1318
+function hexclock.new(format, timeout)
+    local timeout = timeout or 1.1318   -- Hex second
+    local format  = format or " | "
 
     local w = textbox()
+    local hex = hexclk()
     local timer = capi.timer { timeout = timeout }
-    timer:connect_signal("timeout", function() w:set_markup(hexclk() .. " | ") end)
+    timer:connect_signal("timeout", function() w:set_markup(hex .. format) end)
 
     timer:start()
     timer:emit_signal("timeout")
