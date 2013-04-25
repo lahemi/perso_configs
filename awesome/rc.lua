@@ -11,9 +11,12 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
--- Key bindings and unix clock
+-- Key bindings and fancy widgets.
 local rckeys = require("rckeys")
-local unix_t = require("unixalone") 
+local unix_t = require("teatime/tea_unixclock")
+local hexc   = require("teatime/tea_hexclock")
+local osser  = require("teatime/osser")
+--local memmo  = require("teatime/memmo")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -50,7 +53,9 @@ base_dir = os.getenv("HOME") .. ("/.config/awesome")
 themes_dir = (base_dir .. "/themes")
 beautiful.init(themes_dir .. "/modid/theme.lua")
 if beautiful.wallpaper then
-	gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
+    for s = 1, screen.count() do
+        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+    end
 end
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
@@ -67,8 +72,8 @@ layouts =
 
 tags = { layout = { layouts[2], layouts[2], layouts[2], layouts[2], layouts[3],
                     layouts[2], layouts[2], layouts[1], layouts[1], layouts[1],
-                    layouts[1], layouts[2], layouts[5], layouts[2], layouts[1],
-                    layouts[1], layouts[3], layouts[2] } }
+                    layouts[2], layouts[2], layouts[5], layouts[2], layouts[1],
+                    layouts[1], layouts[3], layouts[3] } }
 
 for s = 1, screen.count() do
     tags[s] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18}, 1, tags.layout)
@@ -85,14 +90,16 @@ memwig = wibox.widget.textbox()
 vicious.register(memwig, vicious.widgets.mem, "| MEM: $2MB ", 5)
 
 netwig = wibox.widget.textbox()             -- ip a and change to correspond your system.
-vicious.register(netwig, vicious.widgets.net, " | ↑ ${enp2s0 up_kb} ↓ ${enp2s0 down_kb} ", 1)
+vicious.register(netwig, vicious.widgets.net, "| ↑ ${enp2s0 up_kb} ↓ ${enp2s0 down_kb} ", 1)
 
-osswig = wibox.widget.textbox()
-vicious.register(osswig, vicious.teatime.osses, "| ♫ $1 dB | ", 1)
+--osswig = wibox.widget.textbox()
+--vicious.register(osswig, vicious.teatime.osses, "| ♫ $1 dB | ", 1)
+--hexclock = wibox.widget.textbox()
+--vicious.register(hexclock, vicious.teatime.hexclock, "$1 ", 1.318)
 
-hexclock = wibox.widget.textbox()
-vicious.register(hexclock, vicious.teatime.hexclock, "$1", 1.318)
-
+--memmo     = memmo.new()
+osser     = osser.new()
+hexclock  = hexc.new()
 unixclock = unix_t.new()
 
 -- Create a wibox for each screen and add it
@@ -136,14 +143,14 @@ mytasklist.buttons = awful.util.table.join(
 for s = 1, screen.count() do
     mypromptbox[1] = awful.widget.prompt()
     mylayoutbox[1] = awful.widget.layoutbox(1)
-    mytaglist[1] = awful.widget.taglist(1, awful.widget.taglist.filter.all, mytaglist.buttons)
-    mytasklist[1] = awful.widget.tasklist(1, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
-    mywibox[1] = awful.wibox({ position = "top", screen = 1, height = 18 })
+    mytaglist[1] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    mytasklist[1] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+    mywibox[1] = awful.wibox({ position = "top", screen = s, height = 18 })
 
     -- Lefties
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mytaglist[1])
-    left_layout:add(mypromptbox[1])
+    left_layout:add(mytaglist[s])
+    left_layout:add(mypromptbox[s])
 
     -- Righties
     local right_layout = wibox.layout.fixed.horizontal()
@@ -151,18 +158,19 @@ for s = 1, screen.count() do
     right_layout:add(netwig)
     right_layout:add(cpuwig)
     -- if s == 1 then right_layout:add(wibox.widget.systray()) end
+--    right_layout:add(memmo)
     right_layout:add(memwig)
-    right_layout:add(osswig)
+    right_layout:add(osser)
     right_layout:add(unixclock)
-    right_layout:add(mylayoutbox[1])
+    right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
     layout:set_left(left_layout)
-    layout:set_middle(mytasklist[1])
+    layout:set_middle(mytasklist[s])
     layout:set_right(right_layout)
 
-    mywibox[1]:set_widget(layout)
+    mywibox[s]:set_widget(layout)
 end
 
 clientkeys = awful.util.table.join(
