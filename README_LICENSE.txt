@@ -9,7 +9,8 @@ featureful behaviour that might occur are fully dis-, un-, de- and
 for your own system after all.
 
 If you require a tad more formal 'license', take a look at
-http://unlicense.org/ and despair, for that is the one I embrace.
+http://unlicense.org/ and despair, for that is the one I embrace,
+unless otherwise noted.
 
 See the licenses of the respective software that these configuration
 files are concerned with, for they are fully applicable and to be
