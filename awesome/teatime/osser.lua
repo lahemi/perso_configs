@@ -35,9 +35,8 @@ function osser.new(format, timeout)
     local format  = format or " | ♫"
 
     local w = textbox()
-    local ossvol = ossvol()
     local timer = capi.timer { timeout = timeout }
-    timer:connect_signal("timeout", function() w:set_markup(format .. ossvol) end)
+    timer:connect_signal("timeout", function() w:set_markup(format .. ossvol()) end)
 
     timer:start()
     timer:emit_signal("timeout")

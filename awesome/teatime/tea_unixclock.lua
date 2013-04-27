@@ -63,9 +63,8 @@ function unixalone.new(format, timeout)
     local format  = format or " | "
 
     local w = textbox()
-    local unix = unix_td()
     local timer = capi.timer { timeout = timeout }
-    timer:connect_signal("timeout", function() w:set_markup(format .. unix .. " ") end)
+    timer:connect_signal("timeout", function() w:set_markup(format .. unix_td() .. " ") end)
 
     timer:start()
     timer:emit_signal("timeout")

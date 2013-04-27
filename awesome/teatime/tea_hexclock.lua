@@ -47,9 +47,8 @@ function hexclock.new(format, timeout)
     local format  = format or " | "
 
     local w = textbox()
-    local hex = hexclk()
     local timer = capi.timer { timeout = timeout }
-    timer:connect_signal("timeout", function() w:set_markup(hex .. format) end)
+    timer:connect_signal("timeout", function() w:set_markup(hexclk() .. format) end)
 
     timer:start()
     timer:emit_signal("timeout")
