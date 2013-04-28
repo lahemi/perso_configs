@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Nyan!
 
-function nyan() {
-clear
+function nyan_one() {
 cat <<\EOF
 ::@::::::::::::::::::::::::::@:::::::::::+::::::::::::::::::+:::::::@::
 ::::::::::::::::@:::::::::::::::::::::::::::::::::::::@@+::::::::::::::
@@ -29,9 +28,9 @@ $$$$$$$$$$$~ ;;;                                            :::::::::::
 :::::+:::::::::::::::::::@@::::::::::::::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::::+::::::::::::::::::::
 EOF
+}
 
-sleep 1
-clear
+function nyan_two() {
 cat <<\EOF
 ::::::::::::@::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::+:::::::::::::::::::::::::::+::::::::::+:::::::::@+::::::::::::::+:::
@@ -54,20 +53,36 @@ cat <<\EOF
 ~~~$$$$~~$$$~   ######################## ;;;;;;;;;;;;;;;;;;; ::::::::::
 $$$$$$$$$$$$$: ;                                            :::::::::::
 $$$$:::::::::: ;;; :: ;; :::::::::::::::: ;;; :::::  ;; ::::::::::+::::
-::@::::::::::::    :::    ::::::::::::::::     :::::     ::::::::::::::
+#:@::::::::::::    :::    ::::::::::::::::     :::::     ::::::::::::::
 :::::::::::++::::::::::::::::::::::@::::::::::::::::::::::::::::::::::+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::@:::::::::::::
 EOF
-sleep 1
 }
 
-while true; do
-    nyan
-done
 
-## To predefine the amount of nyans.
-#n=$1
-#while [[ $(( n -= 1 )) -ge 0 ]]
-#do
-#    nyan
-#done
+# "Initializing our environment" and hiding the cursor.
+clear
+tput civis
+
+# Necessary to make the cursor visible again.
+trap sigtrap INT
+function sigtrap() {
+    tput cvvis
+    echo " SIGINT, quitting.."
+    exit 1
+}
+
+c=0
+while true; do
+    nyan_one
+    printf "\t\t%s" "You have nyanned "$c" seconds."
+    sleep 0.5
+    clear
+
+    nyan_two
+    let "c = $c + 1"
+    printf "\t\t%s" "You have nyanned "$c" seconds."
+    sleep 0.5
+    clear
+done
+# Repeat till forever, with a counter.
