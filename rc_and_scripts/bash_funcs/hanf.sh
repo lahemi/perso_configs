@@ -56,15 +56,7 @@ function converter() {
 
     let "han_dec = $frd * 588 + $srd * 28 + $trd + 44032"
     # C functions is bash, huzzah.
-    han_U=$(printf '%x\n' $han_dec)
-    # If you want to do things the hard way, you could use
-    # this little hex-converter I wrote in scheme,
-    # instead of being "sensible" and just using printf.
-    #han_U=$(guile -l steps.scm -c "(main $han_dec)")
-    
-    han_u=$(echo $han_U|sed "s/^/\\\u/")
-
-    printf "$han_u"
+    printf "\u$(printf '%x' $han_dec)"
 }
 
 function usage() {
@@ -74,7 +66,6 @@ You can use \"_\" character to input space\n\
 in the output."
     return 1
 }
-
 
 function hanf() {
     if [[ $# == 0 ]]; then
@@ -94,9 +85,13 @@ function hanf() {
 
 
 ## Testing notes.
-#declare -a farg=('r' 'R' 's' 'e' 'E' 'f' 'a' 'q' 'Q' 't' 'T' 'd' 'w' 'W' 'c' 'z' 'x' 'v' 'g')
-#declare -a sarg=('k' 'o' 'i' 'O' 'j' 'p' 'u' 'P' 'h' 'hk' 'ho' 'hl' 'y' 'n' 'nj' 'np' 'nl' 'b' 'm' 'ml' 'l')
-#declare -a targ=('' 'r' 'R' 'rt' 's' 'st' 'sg' 'e' 'f' 'fr' 'fa' 'fq' 'ft' 'fx' 'fv' 'fg' 'a' 'q' 'qt' 't' 'T' 'd' 'w' 'c' 'z' 'x' 'v' 'g')
+#declare -ar farg=('r' 'R' 's' 'e' 'E' 'f' 'a' 'q' 'Q' 't' 'T' 'd' 'w' \
+#                    'W' 'c' 'z' 'x' 'v' 'g')
+#declare -ar sarg=('k' 'o' 'i' 'O' 'j' 'p' 'u' 'P' 'h' 'hk' 'ho' 'hl' \
+#                    'y' 'n' 'nj' 'np' 'nl' 'b' 'm' 'ml' 'l')
+#declare -ar targ=('' 'r' 'R' 'rt' 's' 'st' 'sg' 'e' 'f' 'fr' 'fa' 'fq' \
+#                    'ft' 'fx' 'fv' 'fg' 'a' 'q' 'qt' 't' 'T' 'd' 'w' \
+#                    'c' 'z' 'x' 'v' 'g')
 #
 # Indexed arrays would've otherwise been nicer, but look at _this_ mess..
 #for (( i = 0; i < ${#farg[@]}; i++ )); do
