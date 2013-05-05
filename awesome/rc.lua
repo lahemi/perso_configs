@@ -11,10 +11,10 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 -- Key bindings and fancy widgets.
-local rckeys = require("rckeys")
-local unix_t = require("teatime/tea_unixclock")
-local hexc   = require("teatime/tea_hexclock")
-local osser  = require("teatime/osser")
+local modekeys = require("modekeys")
+local unix_t   = require("teatime/tea_unixclock")
+local hexc     = require("teatime/tea_hexclock")
+local osser    = require("teatime/osser")
 
 -- Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -42,12 +42,12 @@ end
 
 -- Variable definitions
 terminal = "lilyterm"
-modkey = "Mod4"
-mod1 = "Mod1"
+mod4 = "Mod4"
 
 base_dir = os.getenv("HOME") .. ("/.config/awesome")
 themes_dir = (base_dir .. "/themes")
 --beautiful.init(themes_dir .. "/grayscaled/theme.lua")
+--beautiful.init(themes_dir .. "/A_rch/theme.lua")
 beautiful.init(themes_dir .. "/catbug/theme.lua")
 if beautiful.wallpaper then
     gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
@@ -90,9 +90,9 @@ mylayoutbox = {}
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
                     awful.button({ }, 1, awful.tag.viewonly),
-                    awful.button({ modkey }, 1, awful.client.movetotag),
+                    awful.button({ mod4 }, 1, awful.client.movetotag),
                     awful.button({ }, 3, awful.tag.viewtoggle),
-                    awful.button({ modkey }, 3, awful.client.toggletag)
+                    awful.button({ mod4 }, 3, awful.client.toggletag)
                     )
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
@@ -141,24 +141,8 @@ layout:set_middle(mytasklist[1])
 layout:set_right(right_layout)
 mywibox[1]:set_widget(layout)
 
-
-clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey,           }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end))
-
-clientbuttons = awful.util.table.join(
-    awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize))
-
--- Key bindings. They can be found in rckeys, huzzah for modularity.
-root.keys(rckeys)
+-- Key bindings. See modekeys, also contains clientkeys.
+root.keys(modekeys)
 
 -- Rules
 awful.rules.rules = {
