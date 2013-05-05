@@ -10,7 +10,6 @@ local vicious = require("vicious")
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
-local menubar = require("menubar")
 -- Key bindings and fancy widgets.
 local rckeys = require("rckeys")
 local unix_t = require("teatime/tea_unixclock")
@@ -68,9 +67,6 @@ tags = { layout = { layouts[2], layouts[2], layouts[2], layouts[2], layouts[3],
                     layouts[1], layouts[3], layouts[3] } }
 
 tags[1] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18}, 1, tags.layout)
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
 -- Widgets. Simple is beautiful.
 cpuwig = wibox.widget.textbox()
