@@ -17,6 +17,7 @@ local rckeys = awful.util.table.join(
 
     awful.key({ modkey,           }, "Return", function() awful.util.spawn(terminal) end),
     awful.key({ modkey,           }, "t",      function() awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Control" }, "s", function() awful.util.spawn_with_shell(terminal .. " -e csi") end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift", "Control" }, "q", awesome.quit),
 
@@ -24,25 +25,23 @@ local rckeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "k",     function() awful.client.swap.byidx( -1)  end),
     awful.key({ modkey,           }, "l",     function() awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function() awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "h",     function() awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "l",     function() awful.tag.incnmaster(-1)      end),
     awful.key({ modkey,           }, "space", function() awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function() awful.layout.inc(layouts, -1) end),
 
     awful.key({ }, "XF86AudioRaiseVolume", function() awful.util.spawn("ossmix -q jack.green.front +2")    end),
     awful.key({ }, "XF86AudioLowerVolume", function() awful.util.spawn("ossmix -q -- jack.green.front -2") end),
+    -- Make that nasty pointer disappear.
+    awful.key({ modkey }, "n", function() awful.util.spawn("xdotool mousemove 1600 0") end),
 
     awful.key({ }, "Print", function() awful.util.spawn("scrot -e 'mv $f ~/Scrots'") end),
 
-    -- Experiments. These two add and delete tags, some issues here though.
-    --awful.key({ modkey, mod1 }, "n", function() awful.tag.add("-", tags) end),
-    --awful.key({ modkey, mod1 }, "b", function() awful.tag.delete(awful.tag.selected()) end),
-
-    awful.key({ modkey },            "z",     function() mypromptbox[mouse.screen]:run() end),
-    awful.key({ modkey }, "x", function() awful.prompt.run({ prompt = "Run Lua code: " }, mypromptbox[mouse.screen].widget, awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval") end)
+    awful.key({ modkey }, "z", function() mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey }, "x", function() awful.prompt.run({ prompt = "Run Lua code: " },
+                                                            mypromptbox[mouse.screen].widget,
+                                                            awful.util.eval, nil,
+                                                            awful.util.getdir("cache") .. "/history_eval")
+                                                        end)
 )
-
-
 
 for i=1,9 do
     rckeys = awful.util.table.join(rckeys,
