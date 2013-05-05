@@ -9,7 +9,7 @@ local textbox = require("wibox.widget.textbox")
 local osser = { mt = {} }
 
 local function ossvol()
-    local try = os.execute("type ossmix 2>/dev/null")
+    local try = os.execute("type ossmix >/dev/null")
     if try ~= nil then
         local f = io.popen([[ossmix|awk 'BEGIN{ORS=$4} /jack.green.front / {printf substr($4,0,4)}']])
         if f ~= nil then
