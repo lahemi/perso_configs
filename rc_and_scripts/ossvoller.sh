@@ -9,7 +9,7 @@ MUTE="jack.green.mute"
 
 function usage() {
     printf "\
-Usage: ./$0 <option> [argument]\n\n\
+Usage: $0 <option> [argument]\n\n\
 \t-i or --increase <number> to increase the volume by given amount.\n\
 \t-d or --decrease <number> to decrease the volume by given amount.\n\
 \t-t or --toggle to toggle mute on and off.\n\
