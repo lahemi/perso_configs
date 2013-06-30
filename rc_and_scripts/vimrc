@@ -10,19 +10,30 @@ set title
 set hlsearch
 set ignorecase smartcase
 set ruler
+set number
 set lazyredraw
 set background=light
+" Autoreloads modfied file.
+set autoread
 
 syntax on
-
-" Remove the Windows ^M - when the encodings gets messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 inoremap jk <Esc>
 inoremap kj <Esc>
 
+" Proper permissions for the file.
+noremap <F4> :w<cr>:! chmod 700 %<cr><cr>
+" Write and run the script in Vim's shell.
+noremap <F5> :w<cr>:!%:p<cr>
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+set noswapfile
 set backup
 set backupdir=~/.vimbak
 set directory=~/.vimbak
 
-set noswapfile
+" IRC with Vim, using ii.
+map i1 :.w >> \#ii/in<cr>
+map w1 :.w >> \#hhlc/in<cr>
