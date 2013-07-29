@@ -7,6 +7,8 @@
 
 PS1='[\u@\W]\$ '
 
+set -o vi
+
 # See man bash(1)
 HISTSIZE=100
 HISTFILESIZE=10000
@@ -36,15 +38,24 @@ for i in "$bfdir"/*.sh; do
     fi
 done
 
-## Aliases
+function run() {
+    chmod 700 $1 && ./$1
+}
+
+## Aliases. Order matters.
 alias grep='grep -i --color=auto'
 alias ls='ls -F --color=auto'
 alias l='ls'
 alias ll='ls -gGh'      # || ls -goh
 alias la='ls -A'
 alias lg='ls|grep'
+alias lag='la|grep'
+alias lf="awk 'NR==1'"  # print first line
 alias rm='rm -I'
 alias vi='vim'
-alias emacs='vim'
 alias svim='sudoedit'
-alias dtbl='cd /home/blueberry/Dissection_Table'
+alias fehn='feh -Z -g 1600x900'
+alias fehr='feh -Z -g 900x1600'
+alias histon="export HISTIGNORE=''"
+alias histoff="export HISTIGNORE='*'"
+alias dtbl='cd $HOME/Dissection_Table'
