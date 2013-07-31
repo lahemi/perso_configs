@@ -19,7 +19,12 @@ set autoread
 syntax on
 
 inoremap jk <Esc>
-inoremap kj <Esc>
+
+" Disable arrow keys in insert mode. Live a better life.
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
 
 " Proper permissions for the file.
 noremap <F4> :w<cr>:! chmod 700 %<cr><cr>
@@ -33,7 +38,3 @@ set noswapfile
 set backup
 set backupdir=~/.vimbak
 set directory=~/.vimbak
-
-" IRC with Vim, using ii.
-map i1 :.w >> \#ii/in<cr>
-map w1 :.w >> \#hhlc/in<cr>
