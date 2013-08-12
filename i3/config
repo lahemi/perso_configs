@@ -1,0 +1,127 @@
+# i3 config file (v4)
+#
+# Please see http://i3wm.org/docs/userguide.html
+# for a complete reference!
+#
+# This config file uses keycodes (bindsym) and
+# was written for the QWERTY layout.
+#
+
+# Variables
+set $m4 Mod4
+set $m1 Mod1
+
+# Font for window titles. Will also be used by the bar unless a different
+# font is used in the bar {} block below. ISO 10646 = Unicode
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# If you need a lot of unicode glyphs or right-to-left text rendering,
+# you should instead use pango for rendering and choose a FreeType font,
+# such as: font pango:DejaVu Sans Mono 10
+
+# use Mouse+$m4 to drag floating windows to their wanted position
+floating_modifier $m4
+
+# Our terminal
+bindsym $m4+Return exec "sakura"
+
+# Magicks
+bindsym $m4+p      exec "scrot -e 'mv $f ~/Scrotes'"
+bindsym $m4+y      exec "$HOME/SCRIPTS/qpl.sh $(xclip -o)"
+bindsym $m4+plus   exec "$HOME/SCRIPTS/ossvoller.sh -i 2"
+bindsym $m4+minus  exec "$HOME/SCRIPTS/ossvoller.sh -d 2"
+
+# kill focused window
+bindsym $m4+Shift+q kill
+
+# start dmenu (a program launcher)
+bindsym $m4+d exec dmenu_run
+
+# change focus
+bindsym $m4+h focus left
+bindsym $m4+j focus down
+bindsym $m4+k focus up
+bindsym $m4+l focus right
+
+# move focused window
+bindsym $m4+Shift+h move left
+bindsym $m4+Shift+j move down
+bindsym $m4+Shift+k move up
+bindsym $m4+Shift+l move right
+
+# split in horizontal orientation
+bindsym $m4+b split h
+
+# split in vertical orientation
+bindsym $m4+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $m4+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $m4+s layout stacking
+bindsym $m4+w layout tabbed
+bindsym $m4+e layout toggle split
+
+# toggle tiling / floating
+bindsym $m4+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $m4+space focus mode_toggle
+
+# focus the parent container
+bindsym $m4+a focus parent
+# focus the child container
+#bindsym $m4+d focus child
+
+# switch to workspace
+bindsym $m4+1     workspace 1
+bindsym $m4+2     workspace 2
+bindsym $m4+3     workspace 3
+bindsym $m4+4     workspace 4
+bindsym $m4+5     workspace 5
+bindsym $m4+$m1+1 workspace 6
+bindsym $m4+$m1+2 workspace 7
+bindsym $m4+$m1+3 workspace 8
+bindsym $m4+$m1+4 workspace 9
+bindsym $m4+$m1+5 workspace 10
+
+# move focused container to workspace
+bindsym $m4+Shift+1     move container to workspace 1
+bindsym $m4+Shift+2     move container to workspace 2
+bindsym $m4+Shift+3     move container to workspace 3
+bindsym $m4+Shift+4     move container to workspace 4
+bindsym $m4+Shift+5     move container to workspace 5
+bindsym $m4+$m1+Shift+1 move container to workspace 6
+bindsym $m4+$m1+Shift+2 move container to workspace 7
+bindsym $m4+$m1+Shift+3 move container to workspace 8
+bindsym $m4+$m1+Shift+4 move container to workspace 9
+bindsym $m4+$m1+Shift+5 move container to workspace 10
+
+# reload the configuration file
+bindsym $m4+Shift+c reload
+# restart i3 inplace (preserving the layout/session)
+bindsym $m4+Shift+r restart
+
+mode "resize" {
+        bindsym h  resize shrink width 10 px or 10 ppt
+        bindsym j  resize grow height 10 px or 10 ppt
+        bindsym k  resize shrink height 10 px or 10 ppt
+        bindsym l  resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $m4+r mode "resize"
+
+# Start i3bar to display a workspace bar+sysinfo i3status.
+bar {
+        status_command i3status
+}
+
+# Rules
+assign [class="MPlayer"] 10
+for_window [class="MPlayer"] border none
+for_window [title="icelesstea@eeepc:~"] border none
+
