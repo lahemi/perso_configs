@@ -1,29 +1,29 @@
 #!/usr/bin/env bash
 # Quvi is a wonderful tool, providing of
-# a workaround from the evils of flash.
+# a replacement for the evils of flash.
 # See project website for more information.
 # <http://quvi.sourceforge.net/>
 
 function qpl() {
-    if [ $# != 1 ]; then
-        echo 'Single arg, please.'
-        return 1
+    if [ "$1" == "null" ]; then
+        opt='-vo null'
+        url="$2"
+    else
+        opt=""
+        url="$1"
     fi
-
-    url="$1"
 
     if [[ "$url" != http* ]]; then
-        url=$(echo "$url"|sed 's/^/http:\/\//')
-        echo "$url"
+        url=$(printf "$url"|sed 's/^/http:\/\//')
     fi
 
-    # If this happens to be the case, please quote arg.   
+    # TODO check quoting
     if [[ "$url" == *feature* ]]; then
-        url=$(echo "$url"|awk 'BEGIN{FS="&"} {print $1}')   
-                                # or sed 's/\$[^$]*$//'
-        echo "$url"
+        url=$(printf "$url"|\
+            awk 'BEGIN{FS="&"} {print $1}')
     fi
 
-    mplayer $(quvi "$url"|awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
+    mplayer $opt $(quvi "$url"|\
+        awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
 }
 
