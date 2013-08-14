@@ -1,0 +1,19 @@
+# .xinitrc-tastic
+
+setxkbmap fi
+xsetroot -cursor_name left_ptr
+numlockx &
+dropbox start &
+
+xmodmap -e 'clear Lock'
+xmodmap -e 'keycode 66 = Return'
+
+# Ever watchful monitor.
+xset -dpms
+xset s noblank
+xset s noexpose
+
+xsetwacom --set "Wacom Bamboo 16FG 4x5 Finger touch" Touch off
+xsetwacom --set "Wacom Bamboo 16FG 4x5 Pen stylus" Mode relative
+
+exec awesome
