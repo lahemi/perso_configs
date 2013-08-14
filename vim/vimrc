@@ -1,6 +1,8 @@
 
 filetype plugin indent on
 
+syntax on
+
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -16,15 +18,15 @@ set background=light
 " Autoreloads modfied file.
 set autoread
 
-syntax on
-
-inoremap jk <Esc>
+imap jk <Esc>
 
 " Disable arrow keys in insert mode. Live a better life.
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
+imap <Left> <NOP>
+imap <Right> <NOP>
+imap <Up> <NOP>
+imap <Down> <NOP>
+map § ~
+
 
 " Proper permissions for the file.
 noremap <F4> :w<cr>:! chmod 700 %<cr><cr>
@@ -37,4 +39,4 @@ noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 set noswapfile
 set backup
 set backupdir=~/.vimbak
-set directory=~/.vimbak
+
