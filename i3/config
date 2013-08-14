@@ -25,10 +25,14 @@ floating_modifier $m4
 bindsym $m4+Return exec "sakura"
 
 # Magicks
-bindsym $m4+p      exec "scrot -e 'mv $f ~/Scrotes'"
-bindsym $m4+y      exec "$HOME/SCRIPTS/qpl.sh $(xclip -o)"
-bindsym $m4+plus   exec "$HOME/SCRIPTS/ossvoller.sh -i 2"
-bindsym $m4+minus  exec "$HOME/SCRIPTS/ossvoller.sh -d 2"
+bindsym $m4+p         exec "scrot -e 'mv $f ~/Scrotes'"
+bindsym $m4+y         exec "$HOME/SCRIPTS/qpl.sh $(xclip -o)"
+bindsym $m4+plus      exec "$HOME/SCRIPTS/osp.sh -i 2"
+bindsym $m4+minus     exec "$HOME/SCRIPTS/osp.sh -d 2"
+bindsym $m4+$m1+Right exec "$HOME/SCRIPTS/mp_ctrl.sh n"
+bindsym $m4+$m1+Left  exec "$HOME/SCRIPTS/mp_ctrl.sh p"
+bindsym $m4+$m1+Down  exec "$HOME/SCRIPTS/mp_ctrl.sh q"
+bindsym $m4+$m1+Up    exec "$HOME/SCRIPTS/mp_ctrl.sh ps"
 
 # kill focused window
 bindsym $m4+Shift+q kill
@@ -85,6 +89,11 @@ bindsym $m4+$m1+3 workspace 8
 bindsym $m4+$m1+4 workspace 9
 bindsym $m4+$m1+5 workspace 10
 
+bindsym $m4+Left        workspace prev
+bindsym $m4+Right       workspace next
+bindsym $m4+Shift+Left  move container to workspace prev; workspace prev
+bindsym $m4+Shift+Right move container to workspace next; workspace next
+
 # move focused container to workspace
 bindsym $m4+Shift+1     move container to workspace 1
 bindsym $m4+Shift+2     move container to workspace 2
@@ -117,11 +126,11 @@ bindsym $m4+r mode "resize"
 
 # Start i3bar to display a workspace bar+sysinfo i3status.
 bar {
-        status_command i3status
+    status_command i3status
 }
 
 # Rules
-assign [class="MPlayer"] 10
+assign     [class="MPlayer"] 10
 for_window [class="MPlayer"] border none
 for_window [title="icelesstea@eeepc:~"] border none
 
