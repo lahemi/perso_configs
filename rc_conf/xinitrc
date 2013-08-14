@@ -16,4 +16,5 @@ xset s noexpose
 xsetwacom --set "Wacom Bamboo 16FG 4x5 Finger touch" Touch off
 xsetwacom --set "Wacom Bamboo 16FG 4x5 Pen stylus" Mode relative
 
-exec awesome
+#until wingo; do :; done
+exec i3
