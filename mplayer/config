@@ -9,7 +9,7 @@ vo=xv
 #vm=yes
 #monitoraspect=16:9
 
-vf-add=expand=::::1:16/9:16
+#vf-add=expand=::::1:16/9:16
 
 # audio settings-------------------------------------------
 
