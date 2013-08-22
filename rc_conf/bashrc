@@ -43,6 +43,18 @@ function run() {
     chmod 700 "$1" && ./"$1"
 }
 
+function xkbtoggle() {
+    layout=$(setxkbmap -query|awk '/layout/ {print $2}')
+    variant=$(setxkbmap -query|awk '/variant/ {print $2}')
+    [ "$layout" = "fi" ] \
+        && setxkbmap us -variant colemak \
+        && xmodmap -e 'keycode 66 = Return'
+    [ "$variant" = "colemak" ] \
+        && setxkbmap fi \
+        && xmodmap -e 'clear Lock' \
+        && xmodmap -e ' keycode 66 = Return'
+}
+
 ## Aliases. Order matters.
 alias grep='grep -i --color=auto'
 alias ls='ls -F --color=auto'
@@ -55,8 +67,8 @@ alias lf="awk 'NR==1'"  # print first line
 alias rm='rm -I'
 alias vi='vim'
 alias svim='sudoedit'
-alias fehn='feh -Z -g 1600x900'
-alias fehr='feh -Z -g 900x1600'
+alias fehn='feh -Z -g 1600x900 -B black'
+alias fehr='feh -Z -g 900x1600 -B black'
 alias histon="export HISTIGNORE=''"
 alias histoff="export HISTIGNORE='*'"
 alias dtbl='cd $HOME/Dissection_Table'
