@@ -27,6 +27,7 @@ export EDITOR=vim
 export VISUAL=vim
 export PAGER=less
 export NMON=cnmt
+export MANWIDTH=80
 export TERMINAL=sakura
 
 ##---Fancy funcs-----------------------------------------------------

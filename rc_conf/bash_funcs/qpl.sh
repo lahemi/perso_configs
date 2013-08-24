@@ -1,29 +1,19 @@
-#!/usr/bin/env bash
-# Quvi is a wonderful tool, providing of
-# a replacement for the evils of flash.
-# See project website for more information.
-# <http://quvi.sourceforge.net/>
+#!/usr/bin/mksh
 
-function qpl() {
-    if [ "$1" == "null" ]; then
-        opt='-vo null'
-        url="$2"
-    else
-        opt=""
-        url="$1"
-    fi
+# Quvi can be used to replace flash on some sites. Liberate yourself!
+qpl() {
+    # First pattern tests for "well-formed" urls.
+    # Second for the "worst case" case scenario.
+    # Third and fourth deal with half-way there cases.
+    # Note also, that if the url contains '&', it must be
+    # quoted, since it's a special char for the shell!
+    url=$(echo "$1"|\
+        awk '/^http.*$/&&!/^.*feature.*$/ { print }
+            !/^http/&&/^.*feature.*$/ {sub(/&feature.*$/,"");
+                                       print "http://"$0 }
+            !/^http/ { print "http://"$0 }
+            /^.*feature.*$/ {sub(/&feature.*$/,""); print }')
 
-    if [[ "$url" != http* ]]; then
-        url=$(printf "$url"|sed 's/^/http:\/\//')
-    fi
-
-    # TODO check quoting
-    if [[ "$url" == *feature* ]]; then
-        url=$(printf "$url"|\
-            awk 'BEGIN{FS="&"} {print $1}')
-    fi
-
-    mplayer $opt $(quvi "$url"|\
-        awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
+    mplayer $(quvi "$url"|awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
 }
 
