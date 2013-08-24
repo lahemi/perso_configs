@@ -3,6 +3,8 @@ filetype plugin indent on
 
 syntax on
 
+source $HOME/.vim_abr.vim
+
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -17,26 +19,39 @@ set lazyredraw
 set background=light
 " Autoreloads modfied file.
 set autoread
+set nocompatible
+set showcmd
+set history=30
 
-imap jk <Esc>
+" From arclinux.vim
+set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+
+imap kj <Esc>
 
 " Disable arrow keys in insert mode. Live a better life.
-imap <Left> <NOP>
+imap <Up>    <NOP>
+imap <Down>  <NOP>
+imap <Left>  <NOP>
 imap <Right> <NOP>
-imap <Up> <NOP>
-imap <Down> <NOP>
+" Because fi-layout sucks.
 map § ~
-
 
 " Proper permissions for the file.
 noremap <F4> :w<cr>:! chmod 700 %<cr><cr>
 " Write and run the script in Vim's shell.
 noremap <F5> :w<cr>:!%:p<cr>
 
-" Remove the Windows ^M - when the encodings gets messed up
+" Remove the Windows ^M - when the encodings get messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 set noswapfile
 set backup
 set backupdir=~/.vimbak
 
+" Redefine syntax highlighting colours. Smooth and works
+" for when using sakura. Might fail horribly otherwise.
+hi Comment ctermfg=magenta cterm=none
+hi Constant ctermfg=cyan cterm=none
+hi PreProc ctermfg=green cterm=none
+hi Special ctermfg=blue cterm=none
+" Identifier,Statement,Type
