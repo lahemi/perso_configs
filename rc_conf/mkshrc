@@ -1,0 +1,54 @@
+#
+# ~/.mkshrc
+#
+
+PS1="[\$PWD]$ "
+
+set -o utf8-mode
+set -o vi
+set -o vi-tabcomplete
+
+HISTSIZE=250
+HISTFILE="$HOME/.mirhist"
+typeset -x MANWIDTH=80
+typeset -x EDITOR=vim
+typeset -x VISUAL=vim
+typeset -x PAGER=less
+typeset -x NMON=cnmt
+
+# Source all them functions.
+fun_path="$HOME/.mksh_funcs"
+for i in "$fun_path"/*.sh; do
+    source "$i"
+done
+
+
+# "ls hell"
+alias grep='grep -i --color=auto'
+alias ls='ls -F --color=auto'
+alias l='ls'
+alias ll='ls -gGh'
+alias la='ls -A'
+alias lg='ls|grep'
+alias lag='la|grep'
+alias llag='ll -A|grep'
+alias rm='rm -I'
+alias v='vim'
+alias fehn='feh -Z -g 1600x900 -B black'
+alias fehr='feh -Z -g 900x1600 -B black'
+alias mpl='mplayer -slave -input file=$HOME/.mplayer/mp_fifo'
+
+## Aliases set automatically by the shell.
+# autoload='typeset -fu'
+# functions='typeset -f'
+# hash='alias -t'
+# history='fc -l'
+# integer='typeset -i'
+# local='typeset'
+# login='exec login'
+# nameref='typeset -n'
+# nohup='nohup '
+# r='fc -e -'       == !! in bash
+# stop='kill -STOP'
+# suspend='kill -STOP $$'
+# type='whence -v'
