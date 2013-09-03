@@ -21,16 +21,15 @@ floating_modifier $m4
 bindsym $m4+Return exec "sakura"
 
 # Magicks
-bindsym $m4+y         exec "$HOME/SCRIPTS/qpl.sh $(xclip -o)"
+bindsym $m4+y  workspace 10; exec "$HOME/SCRIPTS/qpl.sh $(xclip -o)"
 bindsym $m4+plus      exec "$HOME/SCRIPTS/oss_vol.scm i 2"
 bindsym $m4+minus     exec "$HOME/SCRIPTS/oss_vol.scm d 2"
-bindsym $m4+$m1+Right exec "$HOME/SCRIPTS/mp_ctrl.sh n"
-bindsym $m4+$m1+Left  exec "$HOME/SCRIPTS/mp_ctrl.sh p"
-bindsym $m4+$m1+Down  exec "$HOME/SCRIPTS/mp_ctrl.sh q"
 bindsym $m4+$m1+Up    exec "$HOME/SCRIPTS/mp_ctrl.sh ps"
+bindsym $m4+$m1+Down  exec "$HOME/SCRIPTS/mp_ctrl.sh q"
+bindsym $m4+$m1+Left  exec "$HOME/SCRIPTS/mp_ctrl.sh p"
+bindsym $m4+$m1+Right exec "$HOME/SCRIPTS/mp_ctrl.sh n"
 bindsym $m4+$m1+plus  exec "$HOME/SCRIPTS/mp_ctrl.sh s 20"
 bindsym $m4+$m1+minus exec "$HOME/SCRIPTS/mp_ctrl.sh s -20"
-
 
 # start dmenu (a program launcher)
 bindsym $m4+$m1+c exec dmenu_run
@@ -120,10 +119,11 @@ mode "resize" {
 bindsym $m4+r mode "resize"
 
 mode "command" {
-    bindsym s      exec "slock"; mode "default"
-    bindsym p      exec "scrot -e 'mv $f ~/Scrotes'"; mode "default"
-    bindsym t      exec "sakura"; mode "default"
+    bindsym k      exec "$HOME/SCRIPTS/xkbtoggle.scm"; mode "default"
     bindsym n      exec "sakura -x nmon"; mode "default"
+    bindsym p      exec "scrot -e 'mv $f ~/Scrotes'"; mode "default"
+    bindsym s      exec "slock"; mode "default"
+    bindsym t      exec "sakura"; mode "default"
     bindsym v      exec "sakura -x vim"; mode "default"
     bindsym $m4+x  kill; mode "default"
 
