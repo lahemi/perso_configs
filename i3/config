@@ -134,11 +134,13 @@ mode "command" {
 bindsym $m4+c mode "command"
 
 mode "pointer" {
-    bindsym h       exec "$HOME/SCRIPTS/cursor.sh h"
-    bindsym j       exec "$HOME/SCRIPTS/cursor.sh j"
-    bindsym k       exec "$HOME/SCRIPTS/cursor.sh k"
-    bindsym l       exec "$HOME/SCRIPTS/cursor.sh l"
-    bindsym space   exec "$HOME/SCRIPTS/cursor.sh spc"
+    bindsym h       exec "$HOME/SCRIPTS/cursor.scm h"
+    bindsym j       exec "$HOME/SCRIPTS/cursor.scm j"
+    bindsym k       exec "$HOME/SCRIPTS/cursor.scm k"
+    bindsym l       exec "$HOME/SCRIPTS/cursor.scm l"
+    bindsym space   exec "$HOME/SCRIPTS/cursor.scm f"
+    bindsym s       exec "$HOME/SCRIPTS/cursor.scm s"
+    bindsym m       exec "$HOME/SCRIPTS/cursor.scm m"
 
     bindsym Escape  mode "default"
 }
