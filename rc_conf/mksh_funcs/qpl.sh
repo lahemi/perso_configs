@@ -2,6 +2,10 @@
 
 # Quvi can be used to replace flash on some sites. Liberate yourself!
 qpl() {
+
+    # If more than one mplayer, sound only on the first one.
+    test -n "$(ps xc|grep mplayer)" && pkill mplayer
+
     # First pattern tests for "well-formed" urls.
     # Second for the "worst case" case scenario.
     # Third and fourth deal with half-way there cases.
