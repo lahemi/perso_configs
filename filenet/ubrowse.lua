@@ -1,37 +1,61 @@
 #!/usr/bin/env lua5.1
 -- A small utility so you don't have to use that
 -- benighted graphical web browser for Youtube.
--- Usage: $0 what ever you want to search
+--
+-- Usage: $0 [--user] <username|things> [more things..]
+--
+-- If you use --user search, only put the username after it. Otherwise,
+-- you can supply both quoted and unquoted args as you wish. There are
+-- occasions on some searches, where the programming unexpectedly fails.
+-- Haven't yet figured a more general pattern for this, although, the
+-- failure occurs more often with multiple word searches. Sometimes also
+-- In the middle of search, so that it successfully returns some of items,
+-- and then fails. Not sure what's up with that.
+--
 -- GPLv3, 2013, Lauri Peltomäki
 
-local os = { exit = os.exit }
+local http   = require("socket.http")
+local os     = { exit = os.exit }
+local string = { find = string.find,
+                 gsub = string.gsub,
+                 match = string.match,
+                 gmatch = string.gmatch,
+                 format = string.format, }
+local table  = { concat = table.concat }
+local print  = print
 
-if #arg < 1 then
+local youwatch  = "http://www.youtube.com/watch?v="
+local yousearch = "http://www.youtube.com/results?search_query="
+local youuser   = ""
+local searcharg = ""
+local page      = ""
+local usermode  = false
+
+
+if #arg == 0 then
     print("Need at least one argument.")
     os.exit()
 end
 
-local http = require("socket.http")
-local string = { find = string.find,
-                 gsub = string.gsub,
-                 match = string.match,
-                 gmatch = string.gmatch, }
-local table = { concat = table.concat }
-local print = print
-
-local youwatch  = "http://www.youtube.com/watch?v="
-local yousearch = "http://www.youtube.com/results?search_query="
-
-local searcharg = ""
--- If the argument is quoted and has whitespaces.
-if #arg == 1 then
-    searcharg = arg[1]:gsub("%s","+")
+if arg[1] == "--user" then
+    if #arg ~= 2 then                                    -- Basename without path.
+        print(string.format("Usage: %s [--]user username",arg[0]:gsub("^.+/","")))
+        os.exit()
+    else
+        usermode = true
+        youuser = "http://www.youtube.com/user/" .. arg[2] .. "/Videos"
+    end
 else
-    for i=1,#arg do
-        if i >= #arg then
-            searcharg = searcharg .. arg[i]
-        else
-            searcharg = searcharg .. arg[i] .. "+"  -- == whitespace
+    -- If the argument is quoted and has whitespaces.
+    if #arg == 1 then
+        searcharg = arg[1]:gsub("%s","+")
+    else
+        for i=1,#arg do
+            if i >= #arg then
+                searcharg = searcharg .. arg[i]
+            else
+                searcharg = searcharg .. arg[i] .. "+"  -- == whitespace
+            end
         end
     end
 end
@@ -45,7 +69,11 @@ local getpage = function(url)
         return page
     end 
 end
-local page = getpage(yousearch..searcharg)
+if usermode == true then
+    page = getpage(youuser)
+else
+    page = getpage(yousearch..searcharg)
+end
 
 local context_items = {}
 for w in page:gmatch("[^\n]+") do
@@ -66,10 +94,11 @@ local ctime  = cbase.."time=\".-\""
 
 local viewtbl,vidtbl,tletbl,usrtbl,timetbl = {},{},{},{},{}
 
+local trim = function(s) return s:match("\".-\""):gsub("\"","") end
 -- The magicks, do take a moment to peruse.
 for i=1,#context_items do
+    -- Less efficient, put results in cleaner code.
     local m = function(s) return context_items[i]:match(s) end
-    local trim = function(s) return s:match("\".-\""):gsub("\"","") end
     if m(cview)  then
         viewtbl[#viewtbl+1] = "Views: " .. m(cview):match("%d+.-%s")
     end
