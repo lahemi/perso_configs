@@ -3,10 +3,14 @@
 #
 
 PS1="[\$PWD]$ "
+PS2=">> "
 
-set -o utf8-mode
-set -o vi
-set -o vi-tabcomplete
+# 600
+umask 0077
+
+# Ensure $USER and $HOST are set.
+[[ -n $USER ]] || USER=$(id -un)
+[[ -n $HOST ]] || HOST=$(uname -n)
 
 HISTSIZE=250
 HISTFILE="$HOME/.mirhist"
@@ -16,12 +20,24 @@ typeset -x VISUAL=vim
 typeset -x PAGER=less
 typeset -x NMON=cnmt
 
+set -o utf8-mode
+set -o vi
+set -o vi-tabcomplete
+
 # Source all them functions.
 fun_path="$HOME/.mksh_funcs"
 for i in "$fun_path"/*.sh; do
     source "$i"
 done
 
+# local var1 var2 var3 ... 
+# Allow multiple local declarations in single line.
+local() {
+    for i in "$@"; do
+        typeset "$i"
+    done
+}
+fr() { awk '1' "$1"|less; }
 
 # "ls hell"
 alias grep='grep -i --color=auto'
@@ -37,6 +53,7 @@ alias v='vim'
 alias fehn='feh -Z -g 1600x900 -B black'
 alias fehr='feh -Z -g 900x1600 -B black'
 alias mpl='mplayer -slave -input file=$HOME/.mplayer/mp_fifo'
+alias keydemo='key-mon --nomouse -t oblivion --old-keys=2'
 
 ## Aliases set automatically by the shell.
 # autoload='typeset -fu'
@@ -44,7 +61,7 @@ alias mpl='mplayer -slave -input file=$HOME/.mplayer/mp_fifo'
 # hash='alias -t'
 # history='fc -l'
 # integer='typeset -i'
-# local='typeset'
+# local='typeset'       !unaliased, see local()
 # login='exec login'
 # nameref='typeset -n'
 # nohup='nohup '
