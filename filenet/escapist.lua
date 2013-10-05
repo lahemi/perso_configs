@@ -3,12 +3,13 @@
 -- For streaming the videos of www.escapistmagazine.com.
 -- GPLv3, 2013, Lauri Peltomäki
 
-local http = require("socket.http")
+local http   = require("socket.http")
 local string = { find = string.find,
                  gsub = string.gsub,
                  match = string.match,
                  gmatch = string.gmatch, }
-local print = print
+local print  = print
+local assert = assert
 
 escapist = function()
 
