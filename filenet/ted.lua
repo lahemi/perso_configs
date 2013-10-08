@@ -18,7 +18,7 @@ ted = function()
         if line:find("no%-flash%-video%-download") then
             local ret = line:gsub("^%s+","")
                             :gsub("%s+$","")
-                            :match('(http.-)"')
+                            :match('(http.-)[\'"]')
             return ret
         end
     end

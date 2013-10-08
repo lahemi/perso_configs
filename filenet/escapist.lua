@@ -3,13 +3,12 @@
 -- For streaming the videos of www.escapistmagazine.com.
 -- GPLv3, 2013, Lauri Peltomäki
 
-local http   = require("socket.http")
+local http = require("socket.http")
 local string = { find = string.find,
                  gsub = string.gsub,
                  match = string.match,
                  gmatch = string.gmatch, }
-local print  = print
-local assert = assert
+local print = print
 
 escapist = function()
 
@@ -32,7 +31,7 @@ escapist = function()
 
             for r in fetched:gmatch("[^{]+") do
                 if r:find("url") and r:find("'Video'") then -- Event category
-                    return r:match("'http.-'") -- Return quoted url.
+                    return r:match("(http.-)[\"']")
                 end
             end
         end
