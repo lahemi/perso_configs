@@ -1,22 +1,22 @@
 
-These are, probably already outdated, configs for awesome wm I use.
+After several months of agony and turmoil, I return back to Awesome.
+I quite learned to love the arbitrary tiling in i3, the funkiness
+of Guile-wm, was positively suprised by Wingo and so forth.
+I'm also more capable with Lua than I used to be. Much more capable.
+And so Awesome beckoned. Despite Awesome's horrid tiling and certain
+other little quirks, I just plain enjoy far too much hacking and
+scripting my wm - and Awesome is the for Lua, currently at least.
+
 
 The keybindings can be found modekeys.lua, including the clientkeys.
 Three different input modes are defined, alongside the main one, there
 are two subset modes, one for clients and one for running programs.
 
-You also need to change the parametres for the network widget, unless
-you're using systemd on your machine and happen to have enp2s0 too...
+Avescripts are my new "modules", scripts for keybindings, widgets, whatnot.
+Much more to follow..
 
-There is also a directory 'teatime' which contains my horrid un-Lua-tastic
-widgets for OSS volume, and much more importantly, a hexadecimal and
-Unix time clocks.
+Aveinit, boxen and tboxbase take care of blue-taccing my scripts to
+Awesome. They are quite simple, yet they cost me partly one nights sleep.
 
-You are fully entitled and free to modify, redistribute and in any way
-in general to elaborate on my configuration files.
+My scripts are GPLv3 licensed.
 
-See the respective licenses of Awesome WM and Vicious.
-
-I would be grateful to receive any suggestions, questions and
-especially advice on Lua, awesomewm configurations and what-not.
-You can find me at Freenode under a nick 'icelesstea'.
