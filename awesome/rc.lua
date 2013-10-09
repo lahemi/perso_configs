@@ -14,7 +14,6 @@ local naughty = require("naughty")
 local modekeys = require("modekeys")
 local unix_t   = require("teatime/tea_unixclock")
 local hexc     = require("teatime/tea_hexclock")
-local osser    = require("teatime/osser")
 local boxen    = require("boxen")
 
 -- Error handling
@@ -78,7 +77,7 @@ cpuwig = wibox.widget.textbox()
 vicious.register(cpuwig, vicious.widgets.cpu, "| CPU: $1% ", 3)
 
 -- Teatime.
-osser     = osser.new()
+--osser     = osser.new()
 hexclock  = hexc.new()
 unixclock = unix_t.new()
 
@@ -128,8 +127,8 @@ for s=1,screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     right_layout:add(hexclock)
     right_layout:add(cpuwig)
-    right_layout:add(osser)
     right_layout:add(unixclock)
+    right_layout:add(boxen.ossbox)
     right_layout:add(boxen.netbox)
     right_layout:add(boxen.membox)
     right_layout:add(mylayoutbox[s])

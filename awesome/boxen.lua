@@ -12,6 +12,7 @@ boxen = {
     ["membox"] = tbox.create(ave.mem.getdata,{ fmtbefore = " | "}),
     ["netbox"] = tbox.create(ave.net.getdata,{ params = "enp2s0",
                                                fmtbefore = " | "}),
+    ["ossbox"] = tbox.create(ave.ossctl.volume,{ fmtbefore = " | ♫" }),
 }
 
 return boxen
