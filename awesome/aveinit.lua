@@ -2,20 +2,21 @@
 
 aveinit = {}
 
--- We need to add this non-standard path,
--- otherwise our machinations cannot be found.
-package.path = os.getenv'HOME'.."/.config/awesome/avescripts/?.lua;"..package.path
+-- We need to add this non-standard path, otherwise our machinations cannot be found.
+package.path = os.getenv'HOME'..'/.config/awesome/avescripts/?.lua;'..package.path
 
-net       = require("net")
-mem       = require("mem")
-ossctl    = require("ossctl")
-queueplay = require("queueplay")
+cpu       = require'cpu'
+net       = require'net'
+mem       = require'mem'
+ossctl    = require'ossctl'
+queueplay = require'queueplay'
 
 aveinit = { 
-    ["net"]       = net,    -- Note, not yet functional !
-    ["mem"]       = mem,
-    ["ossctl"]    = ossctl,
-    ["queueplay"] = queueplay,
+    ['cpu']       = cpu,
+    ['net']       = net,    -- Note, not yet functional !
+    ['mem']       = mem,
+    ['ossctl']    = ossctl,
+    ['queueplay'] = queueplay,
 }
 
 return aveinit

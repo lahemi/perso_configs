@@ -72,12 +72,7 @@ for s=1,screen.count() do
     tags[s] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18}, s, thetags.layout)
 end
 
--- Widgets. Simple is beautiful.
-cpuwig = wibox.widget.textbox()
-vicious.register(cpuwig, vicious.widgets.cpu, "| CPU: $1% ", 3)
-
 -- Teatime.
---osser     = osser.new()
 hexclock  = hexc.new()
 unixclock = unix_t.new()
 
@@ -126,8 +121,8 @@ for s=1,screen.count() do
     -- Righties
     local right_layout = wibox.layout.fixed.horizontal()
     right_layout:add(hexclock)
-    right_layout:add(cpuwig)
     right_layout:add(unixclock)
+    right_layout:add(boxen.cpubox)
     right_layout:add(boxen.ossbox)
     right_layout:add(boxen.netbox)
     right_layout:add(boxen.membox)

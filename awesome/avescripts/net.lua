@@ -1,7 +1,7 @@
 #!/usr/bin/env lua
 -- Incomplete.
 
---local posix = require'posix'
+local posix = require'posix'
 local tonumber = tonumber
 local io = { open = io.open,
              read = io.read,
@@ -18,7 +18,9 @@ local readf = function(file)
     return ret
 end
 
--- The idea is sort there about. Doesn't really work yet though.
+local prev_rx = 0
+local prev_tx = 0
+
 net.getdata = function(interfacename,unit)
     local name    = interfacename or "eth0"
     local unit    = unit or "kb"
@@ -27,21 +29,20 @@ net.getdata = function(interfacename,unit)
     local tbytes  = "/sys/class/net/"..name.."/statistics/tx_bytes"
     local rc1,rc2,sn1,sn2,down,up = 0,0,0,0,0,0
 
-    rc1 = tonumber(readf(rbytes))/units[unit]
-    sn1 = tonumber(readf(tbytes))/units[unit]
+    rx = tonumber(readf(rbytes))/units[unit]
+    tx = tonumber(readf(tbytes))/units[unit]
 
---    posix.sleep(0.01)
+    down   = rx - prev_rx
+    up     = tx - prev_tx
 
-    rc2 = tonumber(readf(rbytes))/units[unit]
-    sn2 = tonumber(readf(tbytes))/units[unit]
-
-    up   = (sn2 - sn1)
-    down = (rc2 - rc1)
+    prev_rx = rx
+    prev_tx = tx
 
     if unit ~= "b" then
         up   = ('%.01f'):format(up)
         down = ('%.01f'):format(down)
     end
+
     return table.concat{"↑ ",up," ","↓ ",down}
 end
 
