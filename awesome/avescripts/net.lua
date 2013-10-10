@@ -24,6 +24,7 @@ net.getdata = function(interfacename,unit)
     local name    = interfacename or "eth0"
     local unit    = unit or "kb"
     local now     = os.time()
+    -- You could also read and parse /proc/net/dev
     local rbytes  = "/sys/class/net/"..name.."/statistics/rx_bytes"
     local tbytes  = "/sys/class/net/"..name.."/statistics/tx_bytes"
     local rc1,rc2,sn1,sn2,down,up = 0,0,0,0,0,0
@@ -37,10 +38,8 @@ net.getdata = function(interfacename,unit)
     prev_rx = rx
     prev_tx = tx
 
-    if unit ~= "b" then
-        up   = ('%.01f'):format(up)
-        down = ('%.01f'):format(down)
-    end
+    up   = ('%.01f'):format(up)
+    down = ('%.01f'):format(down)
 
     return table.concat{"↑ ",up," ","↓ ",down}
 end
