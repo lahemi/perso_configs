@@ -25,13 +25,13 @@ local run_table = {
     m      = function() aus("mypaint") end,
     s      = function() aus("slock")   end,
     t      = function() aus(terminal)  end,
-    x      = function() aus("xdotool mousemove 1600 900") end,
+    x      = function() aus("xdotool mousemove 1600 0") end,
     z      = function() mypromptbox[mouse.screen]:run() end,
     Print  = function() aus("scrot -e 'mv $f ~/Scrotes'") end,
     Return = function() aus(terminal) end,
 
     -- Add pathtofile|url to mplayer queuelist, form xclip.
-    y      = function() aus(ave.queueplay.addlist()) end,
+    y      = function() aus(ave.mpl.queue()) end,
 }
 
 -- Same as above, except press meta+c to enter the mode.
@@ -48,14 +48,14 @@ local client_mode = {
 local allmodekeys = a.util.table.join(
     a.key({mod4,sft,ctl}, "q", awesome.quit),
     a.key({mod4,ctl},  "r", awesome.restart),
-    a.key({mod4,},    "Return", function() aus(terminal) end),
+    a.key({mod4},     "Return", function() aus(terminal) end),
     a.key({mod4,alt}, "l",     a.tag.viewnext),
     a.key({mod4,alt}, "h",     a.tag.viewprev),
-    a.key({mod4,},    "Left",  a.tag.viewprev),
-    a.key({mod4,},    "Right", a.tag.viewnext),
+    a.key({mod4},     "Left",  a.tag.viewprev),
+    a.key({mod4},     "Right", a.tag.viewnext),
     a.key({mod4,ctl}, "k",     function() a.screen.focus_relative(-1) end),
     a.key({mod4,ctl}, "j",     function() a.screen.focus_relative( 1) end),
-    a.key({mod4,},    "space", function() a.layout.inc(layouts,  1) end),
+    a.key({mod4},     "space", function() a.layout.inc(layouts,  1) end),
     a.key({mod4,sft}, "space", function() a.layout.inc(layouts, -1) end),
     a.key({mod4,sft}, "j",     function() a.client.swap.byidx(  1)  end),
     a.key({mod4,sft}, "k",     function() a.client.swap.byidx( -1)  end),
@@ -64,15 +64,23 @@ local allmodekeys = a.util.table.join(
     a.key({mod4}, "j", function()
                            a.client.focus.byidx( 1)
                            if client.focus then client.focus:raise() end end),
-    a.key({mod4,}, "k", function()
+    a.key({mod4}, "k", function()
                            a.client.focus.byidx(-1)
                            if client.focus then client.focus:raise() end end),
-    a.key({ mod4, }, "+",             function() aus(ave.ossctl.increase(2)) end),
-    a.key({ mod4, }, "-",             function() aus(ave.ossctl.decrease(2)) end),
+
+    a.key({mod4}, "+", function() aus(ave.ossctl.increase(2)) end),
+    a.key({mod4}, "-", function() aus(ave.ossctl.decrease(2)) end),
+    a.key({}, "XF86AudioMute", function() aus(ave.ossctl.togglemute()) end),
     a.key({}, "XF86AudioRaiseVolume", function() aus(ave.ossctl.increase(2)) end),
     a.key({}, "XF86AudioLowerVolume", function() aus(ave.ossctl.decrease(2)) end),
-    a.key({}, "XF86AudioMute",        function() aus(ave.ossctl.togglemute()) end),
-    a.key({ mod4, }, "r", function()
+    a.key({mod4,alt}, "Up",    function() aus(ave.mpl.ctl('quit'))  end),
+    a.key({mod4,alt}, "Down",  function() aus(ave.mpl.ctl('pause')) end),
+    a.key({mod4,alt}, "Left",  function() aus(ave.mpl.ctl('pt_step -1')) end),
+    a.key({mod4,alt}, "Right", function() aus(ave.mpl.ctl('pt_step 1'))  end),
+    a.key({mod4,alt}, "+",     function() aus(ave.mpl.ctl('seek 20'))  end),
+    a.key({mod4,alt}, "-",     function() aus(ave.mpl.ctl('seek -20')) end),
+
+    a.key({mod4}, "r", function()
         keygrabber.run(function(mod,key,event)
             if event == "release" then return true end
             keygrabber.stop()
