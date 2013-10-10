@@ -1,20 +1,14 @@
 -- Standard awesome library
-local gears = require("gears")
-local awful = require("awful")
-awful.rules = require("awful.rules")
-require("awful.autofocus")
--- Widget and layout library
-local wibox = require("wibox")
-local vicious = require("vicious")
--- Theme handling library
-local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
--- Key bindings and fancy widgets.
-local modekeys = require("modekeys")
-local unix_t   = require("teatime/tea_unixclock")
-local hexc     = require("teatime/tea_hexclock")
-local boxen    = require("boxen")
+local gears = require'gears'
+local awful = require'awful'
+local rules = require'awful.rules'
+autofocus = awful.autofocus
+
+local wibox     = require'wibox'     -- Widget and layout library
+local beautiful = require'beautiful' -- Theme handling library
+local naughty   = require'naughty'   -- Notification library
+local modekeys  = require'modekeys'  -- Keybindings
+local boxen     = require'boxen'     -- Our widget "module"
 
 -- Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -42,39 +36,30 @@ end
 
 -- Variable definitions
 terminal = "sakura"
-mod4 = "Mod4"
+mod4     = "Mod4"
 
-base_dir = os.getenv'HOME'..'/.config/awesome'
-themes_dir = base_dir..'/themes'
-beautiful.init(themes_dir..'/grayscaled/theme.lua')
---beautiful.init(themes_dir..'/A_rch/theme.lua')
---beautiful.init(themes_dir..'/catbug/theme.lua')
+themefile  = '/grayscaled/theme.lua' --A_rch,catbug
+themes_dir = os.getenv'HOME'..'/.config/awesome/themes'
+beautiful.init(themes_dir..themefile)
 if beautiful.wallpaper then
     for s=1,screen.count() do
         gears.wallpaper.maximized(beautiful.wallpaper,s,true)
     end
 end
 
--- Table of layouts to cover with awful.layout.inc, order matters.
--- Necessar to declare global, otherwise rckeys won't be able to see it.
-layouts = { awful.layout.suit.floating,
-            awful.layout.suit.max,
-            awful.layout.suit.tile,
-            awful.layout.suit.tile.left,
-            awful.layout.suit.fair,
-            awful.layout.suit.tile.bottom, }
+-- Necessary to declare global, otherwise modekeys won't be able to see these.
+local als = awful.layout.suit
+layouts = { als.floating, als.max, als.tile, als.tile.left,
+            als.fair, als.tile.bottom, }
+ttags = { layouts[2],layouts[2],layouts[2],layouts[2],layouts[3],
+          layouts[2],layouts[2],layouts[1],layouts[1],layouts[1],
+          layouts[2],layouts[2],layouts[5],layouts[2],layouts[1],
+          layouts[1],layouts[3],layouts[3] }
 tags = {}
-thetags = { layout = { layouts[2],layouts[2],layouts[2],layouts[2],layouts[3],
-                       layouts[2],layouts[2],layouts[1],layouts[1],layouts[1],
-                       layouts[2],layouts[2],layouts[5],layouts[2],layouts[1],
-                       layouts[1],layouts[3],layouts[3] }}
 for s=1,screen.count() do
-    tags[s] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18}, s, thetags.layout)
+    tags[s] = awful.tag({1,2,3,4,5,6,7,8,9,10,11,12,
+                         13,14,15,16,17,18},s,ttags)
 end
-
--- Teatime.
-hexclock  = hexc.new()
-unixclock = unix_t.new()
 
 -- Create a wibox and add it
 mywibox = {}
@@ -114,8 +99,8 @@ for s=1,screen.count() do
 
     -- Righties
     local rlayout = wibox.layout.fixed.horizontal()
-    rlayout:add(hexclock)
-    rlayout:add(unixclock)
+    rlayout:add(boxen.hexbox)
+    rlayout:add(boxen.unibox)
     rlayout:add(boxen.cpubox)
     rlayout:add(boxen.ossbox)
     rlayout:add(boxen.netbox)
@@ -134,7 +119,7 @@ end
 root.keys(modekeys)
 
 -- Rules
-awful.rules.rules = {
+rules.rules = {
     -- All clients will match this rule.
     { rule = {},
       properties = { border_width = beautiful.border_width,

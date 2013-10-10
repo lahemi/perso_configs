@@ -95,33 +95,25 @@ local allmodekeys = a.util.table.join(
 -- meta+alt+1 to 9 for the rest.
 for i=1,9 do
     allmodekeys = a.util.table.join(allmodekeys,
-        a.key({ mod4 }, "" .. i, function()
-                    local screen = mouse.screen
-                    if tags[screen][i] then
-                        a.tag.viewonly(tags[screen][i])
-                    end
-                end),
-        a.key({ mod4, alt }, "" .. i, function()
-                    local screen = mouse.screen
-                    if tags[screen][i+9] then
-                        a.tag.viewonly(tags[screen][i+9])
-                    end
-                end),
-        a.key({ mod4, "Shift" }, "" .. i, function()
-                    if client.focus and tags[client.focus.screen][i] then
-                        a.client.movetotag(tags[client.focus.screen][i])
-                    end
-                end),
-        a.key({ mod4, alt, "Shift" }, "" .. i, function()
-                    if client.focus and tags[client.focus.screen][i+9] then
-                        a.client.movetotag(tags[client.focus.screen][i+9])
-                    end
-                end))
+        a.key({mod4}, ""..i, function()
+            local s = mouse.screen
+            if tags[s][i] then a.tag.viewonly(tags[s][i]) end end),
+        a.key({mod4,alt}, ""..i, function()
+            local s = mouse.screen
+            if tags[s][i+9] then a.tag.viewonly(tags[s][i+9]) end end),
+        a.key({mod4,sft}, ""..i, function()
+            if client.focus and tags[client.focus.screen][i] then
+                a.client.movetotag(tags[client.focus.screen][i])
+            end end),
+        a.key({mod4,alt,sft}, ""..i, function()
+            if client.focus and tags[client.focus.screen][i+9] then
+                a.client.movetotag(tags[client.focus.screen][i+9])
+            end end))
 end
 
 -- See client_mode.
 clientkeys = a.util.table.join(
-    a.key({ mod4, }, "c", function(c)
+    a.key({mod4}, "c", function(c)
         keygrabber.run(function(mod,key,event)
             if event == "release" then return true end
             keygrabber.stop()
