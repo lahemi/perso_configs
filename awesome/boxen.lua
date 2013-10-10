@@ -14,6 +14,8 @@ boxen = {
     ['netbox'] = tbox.create(ave.net.getdata,{ params = 'enp2s0',
                                                fmtbefore = ' | '}),
     ['ossbox'] = tbox.create(ave.ossctl.volume,{ fmtbefore = ' | ♫' }),
+    ['hexbox'] = tbox.create(ave.hexclock.time,{ fmtbefore = ' ' }),
+    ['unibox'] = tbox.create(ave.unixclock.time,{ fmtbefore = ' | ' }),
 }
 
 return boxen
