@@ -1,3 +1,6 @@
+-- Monitoring CPU is really a horridly complicated task.
+-- This script is only supposed to give a rough idea.
+-- GPLv3, 2013, Lauri Peltomäki
 
 cpu = {}
 
@@ -29,12 +32,6 @@ cpu.getdata = function()
         return diff_usage.."%"
     end
 end
-
---[[local posix = require'posix'
-while 0 do
-    print(cpu.getdata())
-    posix.sleep(1)
-end]]--
 
 return cpu
 

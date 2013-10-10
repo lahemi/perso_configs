@@ -1,7 +1,6 @@
-#!/usr/bin/env lua
--- Incomplete.
+-- Network traffic monitoring script.
+-- GPLv3, 2013, Lauri Peltomäki
 
-local posix = require'posix'
 local tonumber = tonumber
 local io = { open = io.open,
              read = io.read,

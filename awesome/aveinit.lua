@@ -13,7 +13,7 @@ queueplay = require'queueplay'
 
 aveinit = { 
     ['cpu']       = cpu,
-    ['net']       = net,    -- Note, not yet functional !
+    ['net']       = net,
     ['mem']       = mem,
     ['ossctl']    = ossctl,
     ['queueplay'] = queueplay,
