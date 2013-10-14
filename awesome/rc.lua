@@ -2,7 +2,7 @@
 local gears = require'gears'
 local awful = require'awful'
 local rules = require'awful.rules'
-autofocus = awful.autofocus
+require'awful.autofocus'
 
 local wibox     = require'wibox'     -- Widget and layout library
 local beautiful = require'beautiful' -- Theme handling library
@@ -101,6 +101,7 @@ for s=1,screen.count() do
     local rlayout = wibox.layout.fixed.horizontal()
     rlayout:add(boxen.hexbox)
     rlayout:add(boxen.unibox)
+    rlayout:add(boxen.devbox)
     rlayout:add(boxen.cpubox)
     rlayout:add(boxen.ossbox)
     rlayout:add(boxen.netbox)

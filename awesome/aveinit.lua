@@ -5,6 +5,7 @@ aveinit = {}
 -- We need to add this non-standard path, otherwise our machinations cannot be found.
 package.path = os.getenv'HOME'..'/.config/awesome/avescripts/?.lua;'..package.path
 
+df        = require'df'
 cpu       = require'cpu'
 net       = require'net'
 mem       = require'mem'
@@ -14,6 +15,7 @@ hexclock  = require'hexclock'
 unixclock = require'unixclock'
 
 aveinit = { 
+    ['df']        = df,
     ['cpu']       = cpu,
     ['net']       = net,
     ['mem']       = mem,
