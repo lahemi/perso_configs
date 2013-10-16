@@ -2,6 +2,14 @@
 -- This script is only supposed to give a rough idea.
 -- GPLv3, 2013, Lauri Peltomäki
 
+local tonumber = tonumber
+local math = { floor = math.floor }
+local string = { match = string.match,
+                 gmatch = string.gmatch,}
+local io = { open = io.open,
+             read = io.read,
+             close = io.close,}
+
 cpu = {}
 
 local prev_total = 0
@@ -15,6 +23,7 @@ cpu.getdata = function()
         local idle,total,c = 0,0,0
 
         cdata = fh:read'*l':match'^cpu%s+(.+)$'
+        fh:close()
 
         for d in cdata:gmatch("[^%s]+") do
             c,d = (c+1),tonumber(d)
