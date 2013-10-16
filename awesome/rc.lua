@@ -99,6 +99,7 @@ for s=1,screen.count() do
 
     -- Righties
     local rlayout = wibox.layout.fixed.horizontal()
+    rlayout:add(boxen.tictoc)
     rlayout:add(boxen.hexbox)
     rlayout:add(boxen.unibox)
     rlayout:add(boxen.devbox)
