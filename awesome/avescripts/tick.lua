@@ -1,4 +1,3 @@
-#!/usr/bin/env lua
 -- "Through life some wander while others seem to race
 --  success beating outwards no end to the maze
 --  It takes all of us in and feeds on our strength
