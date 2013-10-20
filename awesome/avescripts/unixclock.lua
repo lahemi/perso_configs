@@ -4,27 +4,22 @@
 
 local os = { time = os.time }
 local tc = table.concat
-local mf = math.floor
 
 unixclock = {}
+
+-- Add those zeroes to make the output cleaner.
+local mf = function(a)
+    return string.format('%02.0f',math.floor(a))
+end
 
 unixclock.time = function()
     local now = os.time()
 
     local a  = mf(now/60/60/24/365.25)
-    local df = mf(now/60/60/24%365.25)
+    local d  = string.format('%03.0f',(now/60/60/24%365.25))
     local h  = mf(now/60/60%24)
     local m  = mf(now/60%60)
     local s  = mf(now%60)
-    local d  = ''
-
-    if     df<10  then d='00'..df
-    elseif df<100 then d='0'..df
-    else d=df end
-
-    if h<10 then h='0'..h end
-    if m<10 then m='0'..m end
-    if s<10 then s='0'..s end
 
     return tc{a,'-',d,'-',h,':',m,':',s}
 
