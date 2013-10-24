@@ -1,14 +1,16 @@
 " Because typing is so tiring.
 abbr fun function
-abbr lo  local
+abbr loc local
 abbr pr  print
 abbr #!/ #!/usr/bin/env lua
 abbr !=  ~=
 
 " Code generation.
-imap while while<cr>end<esc>kA<space>do<esc>gea<space>
-imap function function<cr>end<esc>kA
-imap iif if<cr>end<esc>kA<space>then<esc>gea<space>
-imap for for<cr>end<esc>kA<space>do<esc>gea<space>
-imap { {<space>}<esc>hi<space>
-imap elseif elseif<space>then<esc>gea<space
+inoremap while whileendkA dogea<space>
+inoremap function functionendkA
+inoremap lof local = function()endkea<space>
+inoremap iif ifendkA thengea<space>
+inoremap elseif elseif thengea<space>
+inoremap ffor forendkA dogea<space>
+inoremap ffot for i=1,# doendkf#a
+inoremap { {}i
