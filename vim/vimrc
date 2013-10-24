@@ -1,9 +1,14 @@
+" Just in case; we want the fancy vim stuff.
+set nocompatible
 
 filetype plugin indent on
 
 syntax on
 
-source $HOME/.vim_abr.vim
+" A few abbreviations.
+source $HOME/.vim/abr.vim
+
+colorscheme default
 
 set tabstop=4
 set softtabstop=4
@@ -19,30 +24,40 @@ set lazyredraw
 set background=light
 " Autoreloads modfied file.
 set autoread
-set nocompatible
 set showcmd
 set history=30
+set nostartofline
 
 " From arclinux.vim
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
 
-imap kj <Esc>
+imap kj <esc>
 
 " Disable arrow keys in insert mode. Live a better life.
-imap <Up>    <NOP>
-imap <Down>  <NOP>
-imap <Left>  <NOP>
-imap <Right> <NOP>
+imap <up>    <nop>
+imap <down>  <nop>
+imap <left>  <nop>
+imap <right> <nop>
+map  <up>    <nop>
+map  <down>  <nop>
+map  <left>  <nop>
+map  <right> <nop>
 " Because fi-layout sucks.
 map § ~
 
 " Proper permissions for the file.
-noremap <F4> :w<cr>:! chmod 700 %<cr><cr>
+noremap <F4> :w:! chmod 700 %
 " Write and run the script in Vim's shell.
-noremap <F5> :w<cr>:!%:p<cr>
+noremap <F5> :w:!%:p
+" Quick single word quote.
+noremap <leader>q i"Ea"
 
-" Remove the Windows ^M - when the encodings get messed up
-noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+" Commenters.
+au FileType lua :map <leader>c :s/^/--/ :noh
+au FileType lua :map <leader>C :s/^--// :noh
+au FileType sh  :map <leader>c :s/^/#/ :noh
+au FileType sh  :map <leader>C :s/^#// :noh
+
 
 set noswapfile
 set backup
@@ -50,8 +65,8 @@ set backupdir=~/.vimbak
 
 " Redefine syntax highlighting colours. Smooth and works
 " for when using sakura. Might fail horribly otherwise.
-hi Comment ctermfg=magenta cterm=none
+hi Comment ctermfg=blue cterm=none
 hi Constant ctermfg=cyan cterm=none
 hi PreProc ctermfg=green cterm=none
-hi Special ctermfg=blue cterm=none
+hi Special ctermfg=blue cterm=bold
 " Identifier,Statement,Type
