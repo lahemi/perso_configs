@@ -3,10 +3,9 @@
 # VGA-1 is our main monitor. 
 # We rather not rotate our IRC/nmon monitor.
 wacom() {
-    wac='Wacom Bamboo 16FG 4x5'
+    wac='Wacom Bamboo Connect'
     wacp="$wac Pen stylus"
     test "$1" = "re" && \
-        xsetwacom --set "$wac Finger touch" touch off 
         xsetwacom --set "$wacp" mode relative
     test "$1" = "ror" && \
         xrandr --output VGA-1 --rotate right && \
@@ -17,5 +16,4 @@ wacom() {
     test "$1" = "draw" && \
         xsetwacom --set "$wacp" mode absolute
 }
-
 
