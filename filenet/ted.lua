@@ -3,7 +3,7 @@
 -- Small helper for TED talks, picks the video url for you.
 -- GPLv3, 2013, Lauri Peltomäki
 
-local http = require("socket.http")
+local http = require'socket.http'
 local print  = print
 local assert = assert
 local string = { find = string.find,
@@ -14,11 +14,11 @@ local string = { find = string.find,
 ted = function()
     local page = assert(http.request(arg[1]))
 
-    for line in page:gmatch("[^\n]+") do
-        if line:find("no%-flash%-video%-download") then
+    for line in page:gmatch'[^\n]+' do
+        if line:find'no%-flash%-video%-download' then
             local ret = line:gsub("^%s+","")
                             :gsub("%s+$","")
-                            :match('(http.-)[\'"]')
+                            :match'(http.-)"'
             return ret
         end
     end
