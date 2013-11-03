@@ -45,12 +45,14 @@ map  <right> <nop>
 " Because fi-layout sucks.
 map § ~
 
+" Note that Github doesn't display control chars correctly here!
 " Proper permissions for the file.
 noremap <F4> :w:! chmod 700 %
 " Write and run the script in Vim's shell.
 noremap <F5> :w:!%:p
 " Quick single word quote.
 noremap <leader>q i"Ea"
+let @q = 'i"Ea"w'
 
 " Commenters.
 au FileType lua :map <leader>c :s/^/--/ :noh
