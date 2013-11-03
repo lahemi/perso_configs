@@ -1,7 +1,4 @@
 #!/usr/bin/mksh
-# Small utility which allows us to queue both local files
-# and streamable videos from the Interwebs for Mplayer.
-# GPLv3, 2013, Lauri Peltomäki
 
 target="$HOME/.mplayer/queuelist"
 tmp="$HOME/.mplayer/queuetmp"
@@ -16,9 +13,9 @@ while true; do
     [[ "$toplay" = http* ]] &&
         toplay=$(quvi "$toplay"|\
             awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
-    print "$toplaye"
-
-    mplayer "$toplay"
+    print "$toplay"
+    # -rootwin as a dirty workaround for background playing.
+    mplayer -fs "$toplay"
 
     [[ ! -s "$target" ]] && break
 done
