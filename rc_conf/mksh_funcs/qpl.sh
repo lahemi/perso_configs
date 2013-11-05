@@ -17,7 +17,11 @@ qpl() {
                                        print "http://"$0 }
             !/^http/ { print "http://"$0 }
             /^.*feature.*$/ {sub(/&feature.*$/,""); print }')
+    # Newer version of quvi...
+    mplayer $(quvi dump "$url"|\
+        awk '/PROPERTY_URL/ {
+                match($0,/http.+/);
+                print(substr($0,RSTART,RLENGTH)) }')
 
-    mplayer $(quvi "$url"|awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
 }
 
