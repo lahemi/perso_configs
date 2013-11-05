@@ -11,8 +11,10 @@ while true; do
     rm "$tmp"
 
     [[ "$toplay" = http* ]] &&
-        toplay=$(quvi "$toplay"|\
-            awk 'BEGIN{FS="\""} /\"url\"/ {print $4}')
+        toplay=$(quvi dump "$toplay"|\
+            awk '/PROPERTY_URL/ {
+                    match($0,/http.+/);
+                    print(substr($0,RSTART,RLENGTH)) }')
     print "$toplay"
     # -rootwin as a dirty workaround for background playing.
     mplayer -fs "$toplay"
