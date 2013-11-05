@@ -38,7 +38,7 @@ end
 terminal = "sakura"
 mod4     = "Mod4"
 
-themefile  = '/grayscaled/theme.lua' --A_rch,catbug
+themefile  = '/spacefoliation/theme.lua' --grayscaled,A_rch,catbug
 themes_dir = os.getenv'HOME'..'/.config/awesome/themes'
 beautiful.init(themes_dir..themefile)
 if beautiful.wallpaper then
