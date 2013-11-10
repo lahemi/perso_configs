@@ -12,6 +12,8 @@ tmpler() {
         [[ "$1" = *sh ]] && f="${l}.sh" || f="${l}.$1"
         [[ ! -e "$f" ]] && {
             touch "$f"
+            print "$f"
+            chmod 700 "$f"
             print "#!/usr/bin/env ${1}\n" > "$f"
         } && break
     done
