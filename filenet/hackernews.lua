@@ -36,12 +36,7 @@ hackernews = function()
                 :gsub('<a href="(.-)">(.-)</a>','Title: %2\nLink: %1\n')
     end
 
-    -- First pass outside of the loop, get the initial values
-    local s,e = r:find(apat)
-    local l   = fmt_l(r,s,e)
-    local r   = r:sub(e+1)
-    local p   = r:match(dpat)
-    elems[#elems+1] = tc{'Points: ',p,'\n',l}
+    -- Gathering all the values we're interested in. Maybe a bit messy-like.
     while true do
         s,e = r:find(apat)  if s==nil then break end
         l   = fmt_l(r,s,e)  if l==nil then break end
