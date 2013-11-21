@@ -11,6 +11,6 @@ bb() {
                 i=index(p,a);
                 e=length(a);
                 print(substr(p,1,(i+e-1)));
-            }
+            } else { print p }
         }')
 }
