@@ -1,4 +1,3 @@
-#!/usr/bin/mksh
 # This is a small utility that can be used to check words from the dictionary.
 # I'm using the Merriam-Webster English dictionary, as plain text files.
 # Source: http://www.mso.anu.edu.au/~ralph/OPTED/index.html
@@ -8,6 +7,10 @@
 # Adjust the path accordingly.
 thepath="$HOME/Dissection_Table/THESAURUS/proc_webster"
 
+# Doesn't return, so no harm done.
+# The function declaration wasn't local even if the variable
+# were first declared local inside the merriam function and
+# then the actual function after, also inside the main function.
 hatch_vars() {
     fl=$(printf "$1"|awk '{printf(tolower(substr($0,1,1)))}')
     fh=$(printf "$1"|awk '{printf(toupper(substr($0,1,1)))}')
@@ -30,4 +33,3 @@ merriam() {
         awk '/^['"$fl$fh"']'"$rest"'/ {print}' "$file"
     fi
 }
-

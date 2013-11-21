@@ -52,9 +52,9 @@ explosm = function()
     if toprint then
         if ret.u then print(ret.u) end
         if ret.i then print(ret.i) end
-        return
+    else
+        return ret
     end
-    return ret
 end
 
 explosm()

@@ -39,7 +39,7 @@ end
 
 if arg[1] == "--user" then
     if #arg ~= 2 then                                    -- Basename without path.
-        print(string.format("Usage: %s [--]user username",arg[0]:gsub("^.+/","")))
+        print(string.format("Usage: %s [--user] username",arg[0]:gsub("^.+/","")))
         os.exit()
     else
         usermode = true

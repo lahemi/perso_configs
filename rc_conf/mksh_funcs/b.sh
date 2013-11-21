@@ -1,5 +1,3 @@
-#!/usr/bin/mksh
-
 # b [count] instead of cd ../../../ ....
 b() {
     test $# -eq 0 && cd ..
@@ -14,4 +12,3 @@ b() {
         done
         cd "$str"
 }
-

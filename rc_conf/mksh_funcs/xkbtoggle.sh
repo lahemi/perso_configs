@@ -1,5 +1,3 @@
-#!/usr/bin/mksh
-
 xkbtoggle() {
     layout=$(setxkbmap -query|awk '/layout/ {print $2}')
     variant=$(setxkbmap -query|awk '/variant/ {print $2}')
@@ -13,4 +11,3 @@ xkbtoggle() {
         && setxkbmap fi \
         && xmodmap -e 'clear Lock' -e 'keycode 66 = Return'
 }
-

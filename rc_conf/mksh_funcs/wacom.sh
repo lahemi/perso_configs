@@ -1,5 +1,3 @@
-#!/usr/bin/mksh
-
 # VGA-1 is our main monitor. 
 # We rather not rotate our IRC/nmon monitor.
 wacom() {
@@ -16,4 +14,3 @@ wacom() {
     test "$1" = "draw" && \
         xsetwacom --set "$wacp" mode absolute
 }
-

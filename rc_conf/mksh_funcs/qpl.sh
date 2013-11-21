@@ -1,5 +1,3 @@
-#!/usr/bin/mksh
-
 # Quvi can be used to replace flash on some sites. Liberate yourself!
 qpl() {
 
@@ -22,6 +20,4 @@ qpl() {
         awk '/PROPERTY_URL/ {
                 match($0,/http.+/);
                 print(substr($0,RSTART,RLENGTH)) }')
-
 }
-

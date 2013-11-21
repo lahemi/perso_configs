@@ -1,4 +1,3 @@
-#!/usr/bin/mksh
 # Create a quick testing file for lua and shells.
 # GPLv3, 2013, Lauri Peltomäki
 
@@ -18,4 +17,3 @@ tmpler() {
         } && break
     done
 }
-
