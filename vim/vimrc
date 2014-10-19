@@ -1,14 +1,6 @@
-" Just in case; we want the fancy vim stuff.
-set nocompatible
-
 filetype plugin indent on
 
-syntax on
-
-" A few abbreviations.
-source $HOME/.vim/abr.vim
-
-colorscheme default
+" Syntax off.
 
 set tabstop=4
 set softtabstop=4
@@ -22,53 +14,30 @@ set ruler
 set number
 set lazyredraw
 set background=light
-" Autoreloads modfied file.
-set autoread
-set showcmd
 set history=30
 set nostartofline
+" Autoreloads modfied file.
+set autoread
 
-" From arclinux.vim
-set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+imap zx <esc>
 
-imap kj <esc>
+imap <C-n> <down>
+imap <C-p> <up>
+imap <C-f> <right>
+imap <C-b> <left>
+imap <C-a> <esc>0i
+imap <C-e> <esc>A
+imap <C-s> <esc>na
+imap <C-r> <esc>Na
+imap <C-v> <pagedown>
+" Woe be me, the issues with alt.
+imap <C-d> <pageup>
 
-" Disable arrow keys in insert mode. Live a better life.
-imap <up>    <nop>
-imap <down>  <nop>
-imap <left>  <nop>
-imap <right> <nop>
-map  <up>    <nop>
-map  <down>  <nop>
-map  <left>  <nop>
-map  <right> <nop>
-" Because fi-layout sucks.
-map § ~
+" Set nice permissions.
+noremap <F4> :w<ret>:! chmod 700 %<ret><ret>
+" Run the current script via the editor.
+noremap <F5> :w<ret>:!%:p<ret>
 
-" Note that Github doesn't display control chars correctly here!
-" Proper permissions for the file.
-noremap <F4> :w:! chmod 700 %
-" Write and run the script in Vim's shell.
-noremap <F5> :w:!%:p
-" Quick single word quote.
-noremap <leader>q i"Ea"
-let @q = 'i"Ea"w'
+" Nice dark-ish gray in my terminal...
+highlight LineNr ctermfg=10
 
-" Commenters.
-au FileType lua :map <leader>c :s/^/--/ :noh
-au FileType lua :map <leader>C :s/^--// :noh
-au FileType sh  :map <leader>c :s/^/#/ :noh
-au FileType sh  :map <leader>C :s/^#// :noh
-
-
-set noswapfile
-set backup
-set backupdir=~/.vimbak
-
-" Redefine syntax highlighting colours. Smooth and works
-" for when using sakura. Might fail horribly otherwise.
-hi Comment ctermfg=blue cterm=none
-hi Constant ctermfg=cyan cterm=none
-hi PreProc ctermfg=green cterm=none
-hi Special ctermfg=blue cterm=bold
-" Identifier,Statement,Type
