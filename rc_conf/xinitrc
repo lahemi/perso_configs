@@ -1,23 +1,5 @@
-# .xinitrc-tastic
+setxkbmap -layout us,apl -variant colemak, -option grp:menu_toggle
 
-setxkbmap fi
-xsetroot -cursor_name left_ptr
-numlockx &
-dropbox start &
+xrandr --output VGA1 --auto --output LVDS1 --auto --right-of VGA1
 
-xmodmap -e 'clear Lock'
-xmodmap -e 'keycode 66 = Return'
-
-# Ever watchful monitor.
-xset -dpms
-xset s noblank
-xset s noexpose
-
-xsetwacom --set "Wacom Bamboo 16FG 4x5 Finger touch" Touch off
-xsetwacom --set "Wacom Bamboo 16FG 4x5 Pen stylus" Mode relative
-
-# Undynamic dual monitor setup
-xrandr --output VGA-1 --auto --output DVI-I-1 --auto --right-of VGA-1
-
-#until wingo; do :; done
-exec i3
+exec 9wm -term sakura
