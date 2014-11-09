@@ -15,14 +15,22 @@ umask 0077
 HISTSIZE=250
 HISTFILE="$HOME/.mirhist"
 typeset -x MANWIDTH=80
-typeset -x EDITOR=vim
-typeset -x VISUAL=vim
+typeset -x EDITOR=vi
+typeset -x VISUAL=vi
 typeset -x PAGER=less
 typeset -x NMON=cnmt
 
+export GOPATH=/home/berry/GOES
+export SCALA_HOME=/home/berry/scala-2.11.2
+export JAVA_HOME=/usr/lib/jvm/jre-1.7.0-openjdk
+
+export PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/bin:/home/berry/bin:$SCALA_HOME/bin:$GOPATH/bin:/usr/local/go/bin
+
 set -o utf8-mode
-set -o vi
-set -o vi-tabcomplete
+set -o emacs
+
+stty -ixon
+stty ixany
 
 # Source all them functions.
 fun_path="$HOME/.mksh_funcs"
@@ -39,21 +47,22 @@ local() {
 }
 fr() { awk '1' "$1"|less; }
 
+# Count total lines, excluding empty lines, of given kinds of files.
+tlines() {
+    awk '!/^$/{t++}END{print t}' $(find .|grep -E "$1")
+}
+
 # "ls hell"
 alias grep='grep -i --color=auto'
-alias ls='ls -F --color=auto'
+alias ls='ls -F'
 alias l='ls'
 alias ll='ls -gGh'
 alias la='ls -A'
 alias lg='ls|grep'
 alias lag='la|grep'
 alias llag='ll -A|grep'
-alias rm='rm -I'
-alias v='vim'
-alias fehn='feh -Z -g 1600x900 -B black'
-alias fehr='feh -Z -g 900x1600 -B black'
-alias mpl='mplayer -slave -input file=$HOME/.mplayer/mp_fifo'
-alias keydemo='key-mon --nomouse -t oblivion --old-keys=2'
+alias rm='rm -i'
+
 
 ## Aliases set automatically by the shell.
 # autoload='typeset -fu'
