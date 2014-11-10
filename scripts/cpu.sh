@@ -1,10 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/sh
+# Note this script does not work properly
+# unless you let it run a few rounds.
 
 PREV_TOTAL=0
 PREV_IDLE=0
 
-while true; do
-    CPU=$(awk 'NR' /proc/stat|awk '/^cpu / {print substr($0, index($0,$2))}')
+counter=0
+limitsecs=10
+
+while (( counter < limitsecs )); do
+    CPU=$(awk '/^cpu / {print substr($0, index($0,$2))}' /proc/stat)
     IDLE=$(echo $CPU|awk '{print $4}')
     # Calculate the total CPU time.
     FUN_TOTAL=$(echo $CPU|awk 'func sum(s) {
@@ -16,14 +21,16 @@ while true; do
                                 return r}
                                 {print sum($0)}')
     # Calculate the CPU usage since we last checked.
-    let "DIFF_IDLE=$IDLE-$PREV_IDLE"
-    let "DIFF_TOTAL=$FUN_TOTAL-$PREV_TOTAL"
-    let "DIFF_USAGE=(1000*($DIFF_TOTAL-$DIFF_IDLE)/$DIFF_TOTAL+5)/10"
+    (( DIFF_IDLE  = IDLE - PREV_IDLE ))
+    (( DIFF_TOTAL =  FUN_TOTAL -  PREV_TOTAL ))
+    (( DIFF_USAGE = (1000 * (DIFF_TOTAL - DIFF_IDLE) / DIFF_TOTAL + 5) / 10 ))
     printf "\rCPU: %d%% \b\b" $DIFF_USAGE
     
     # Remember the total and idle CPU times for the next check.
     PREV_TOTAL="$FUN_TOTAL"
     PREV_IDLE="$IDLE"
 
+    (( counter++ ))
     sleep 1
 done
+
