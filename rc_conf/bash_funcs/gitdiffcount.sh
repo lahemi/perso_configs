@@ -1,4 +1,4 @@
-function gitdiffcount() {
+gitdiffcount() {
     [ $# -ne 2 ] && echo "Give two branches to compare." && return 1
     git --no-pager diff "$1".."$2" | awk \ 
         '       
