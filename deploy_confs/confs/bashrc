@@ -1,0 +1,63 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+PS1='[\u@\W]\$ '
+
+umask 0077
+
+set -o emacs
+
+stty -ixon
+stty ixany
+
+# See man bash(1)
+HISTSIZE=100
+HISTFILESIZE=10000
+HISTCONTROL=ignoredups:ignorespace
+
+# 'Redrawing' window after each command, if necessary.
+shopt -s checkwinsize
+# ['cmdname' == 'dirname'] then cd $cmdname
+shopt -s autocd
+# Bash attempts to save multiple line cmds in same hist entry
+shopt -s cmdhist
+# Extended globbing, really cool. eg. @(-h|--help)
+shopt -s extglob
+
+export EDITOR=vim
+export VISUAL=vim
+export PAGER=less
+export NMON=cnmt
+export MANWIDTH=80
+export TERMINAL=sakura
+
+##---Fancy funcs-----------------------------------------------------
+
+bfdir="$HOME/.bash_funcs"
+
+for i in "$bfdir"/*.sh; do
+    source "$i"
+done
+
+function run() {
+    chmod 700 "$1" && ./"$1"
+}
+
+## Aliases. Order matters.
+alias grep='grep -i --color=auto'
+alias ls='ls -F --color=auto'
+alias l='ls'
+alias ll='ls -gGh'      # || ls -goh
+alias la='ls -A'
+alias lg='ls|grep'
+alias lag='la|grep'
+alias rm='rm -I'
+alias vi='vim'
+alias svim='sudoedit'
+alias histon="export HISTIGNORE=''"
+alias histoff="export HISTIGNORE='*'"
+

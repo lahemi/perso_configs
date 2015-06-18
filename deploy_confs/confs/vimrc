@@ -1,0 +1,64 @@
+filetype plugin indent on
+
+syntax off
+
+set nocompatible
+
+set noerrorbells
+set novisualbell
+
+set encoding=utf-8
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set title
+set hlsearch
+set ignorecase smartcase
+set ruler
+set number
+set lazyredraw
+set background=light
+set history=30
+set nostartofline
+" Autoreloads modfied file.
+set autoread
+
+set cmdheight=2
+
+set backspace=indent,eol,start
+
+inoremap <C-n> <down>
+inoremap <C-p> <up>
+inoremap <C-f> <right> 
+inoremap <C-b> <left>
+inoremap <C-a> <esc>0i 
+inoremap <C-e> <esc>A
+
+" Set nice permissions.
+noremap <F4> :w<ret>:! chmod 700 %<ret><ret>
+" Run the current script via the editor. 
+noremap <F5> :w<ret>:!%:p<ret>
+
+" Nice dark-ish gray in my terminal...
+highlight LineNr ctermfg=10
+
+
+inoremap { {<cr>}<esc>kA
+inoremap [ []<esc>i
+inoremap ( ()<esc>i
+inoremap " ""<esc>i
+inoremap ' ''<esc>i
+
+" Magicks, close html tag.
+nmap ,t F<yef>pF<a/<esc>A><esc>F>a
+
+nnoremap ,n :set nu!<cr>
+nnoremap ,p :set paste!<cr>
+
+nnoremap <C-g> 2<C-g>
+
+" TODO: filetype stuffes
+
